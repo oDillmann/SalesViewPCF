@@ -8,8 +8,10 @@ export interface props {
 
 const App = ({ serviceProvider, entityId }: props) => {
   return (
-    <></>
+    <div>
+      <h1>HEY THERE new</h1>
+    </div>
   )
 }
 
-export default App;
+export default App; 
