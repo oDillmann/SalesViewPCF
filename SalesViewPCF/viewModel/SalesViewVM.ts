@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
+import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -9,27 +10,19 @@ export default class SalesViewVM {
   public context: ComponentFramework.Context<IInputs>;
   public notifyOutputChanged: () => void;
   public cdsService: CdsService;
-  public EntityId: string;
   public errorMessage?: string;
+  public Departments: string[];
+  public SFS: SalesFulfillmentStatus[];
   public PCFerror?: string;
   public isLoading: boolean = true;
   public forceUpdate: () => void;
   saveHandlerAdded: any;
 
-  constructor(serviceProvider: ServiceProvider, EntityId: string) {
+  constructor(serviceProvider: ServiceProvider) {
     this.serviceProvider = serviceProvider;
     this.context = serviceProvider.get("context");
     this.notifyOutputChanged = serviceProvider.get("notifyOutputChanged");
     this.cdsService = serviceProvider.get(CdsService.serviceName);
-    this.EntityId = EntityId;
-    if (
-      this.EntityId == undefined ||
-      this.EntityId == "" ||
-      this.EntityId == null
-    ) {
-      this.PCFerror = "Save the record before editing.";
-      this.isLoading = false;
-    }
     makeAutoObservable(this);
   }
 
@@ -45,23 +38,15 @@ export default class SalesViewVM {
 
   public async init() {
     this.isLoading = true;
-    if (
-      this.EntityId == undefined ||
-      this.EntityId == "" ||
-      this.EntityId == null
-    ) {
-      this.setAppError("Save the record before editing.");
-      this.isLoading = false;
-      return false;
-    }
-    this.PCFerror = undefined;
     await this.fetchData();
     this.isLoading = false;
   }
 
   public async fetchData(): Promise<void> {
     try {
-      throw new Error('Not implemented')
+      const { salesFulfillmentStatus: SFS, departments } = await this.cdsService.fetchData()
+      this.SFS = SFS;
+      this.Departments = departments;
     } catch (e: any) {
       console.log(e);
       this.setError(e.message);

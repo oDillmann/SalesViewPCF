@@ -49,9 +49,7 @@ export class SalesViewPCF
       "notifyOutputChanged",
       notifyOutputChanged
     );
-    const _context: any = this.context;
-    const EntityId = _context.mode.contextInfo.entityId;
-    this.vm = new SalesViewVM(this.serviceProvider, EntityId);
+    this.vm = new SalesViewVM(this.serviceProvider);
     this.serviceProvider.register<SalesViewVM>(
       SalesViewVM.serviceName,
       this.vm
@@ -67,17 +65,14 @@ export class SalesViewPCF
     _context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
     const context: any = this.context;
-    const EntityId = context.mode.contextInfo.entityId;
     ReactDOM.render(
       createElement(App, {
         serviceProvider: this.serviceProvider,
-        entityId: EntityId,
       }),
       this.container
     );
     return createElement(App, {
       serviceProvider: this.serviceProvider,
-      entityId: EntityId,
     });
   }
 

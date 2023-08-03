@@ -1,0 +1,12 @@
+{
+  "entities": [
+    "axa_departmentfulfillmentstatus",
+    "axa_department",
+    "axa_salesfulfillmentstatus"
+  ],
+  "actions": [],
+  "functions": [],
+  "output": {
+    "outputRoot": "./SalesViewPCF/cds-generated"
+  }
+}
