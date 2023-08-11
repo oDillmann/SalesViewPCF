@@ -52,4 +52,35 @@ export default class SalesViewVM {
       this.setError(e.message);
     }
   }
+
+  /**
+   * @description gets the SFS that have their esd in the upcoming week
+   */
+  get thisWeek(): SalesFulfillmentStatus[] {
+    return this.SFS.filter((sfs) => {
+      const esd = new Date(sfs.esd);
+      const today = new Date();
+      const nextWeek = new Date(today.setDate(today.getDate() + 7));
+      return esd >= today && esd <= nextWeek;
+    });
+  }
+
+  get nextWeek(): SalesFulfillmentStatus[] {
+    return this.SFS.filter((sfs) => {
+      const esd = new Date(sfs.esd);
+      const today = new Date();
+      const nextWeek = new Date(today.setDate(today.getDate() + 7));
+      const nextNextWeek = new Date(today.setDate(today.getDate() + 7));
+      return esd >= nextWeek && esd <= nextNextWeek;
+    });
+  }
+
+  get beyond(): SalesFulfillmentStatus[] {
+    return this.SFS.filter((sfs) => {
+      const esd = new Date(sfs.esd);
+      const today = new Date();
+      const nextWeek = new Date(today.setDate(today.getDate() + 14));
+      return esd > nextWeek;
+    });
+  }
 }

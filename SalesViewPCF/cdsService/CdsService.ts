@@ -8,6 +8,7 @@ export default class CdsService {
   public static readonly serviceName = "CdsService";
   public Context: ComponentFramework.Context<IInputs>;
   departmentAlias = "department";
+  departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
 
   constructor(context: ComponentFramework.Context<IInputs>) {
     this.Context = context;
@@ -35,6 +36,9 @@ export default class CdsService {
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_Department}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}'/>`,
+      `      <link-entity name='axa_department' from='axa_departmentid' to='axa_department' link-type='outer' alias='${this.departmentFulfillmentStatusAlias}'>`,
+      "        <attribute name='axa_name'/>",
+      "      </link-entity>",
       "    </link-entity>",
       "    <filter>",
       `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}' operator='ge' value='${new Date(Date.now()).toISOString()}'/>`,
@@ -74,7 +78,7 @@ export default class CdsService {
       }
       const departmentId = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}`];
       if (departmentId)
-        SFS[id].department[item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
+        SFS[id].department[item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
     })
 
     return Object.values(SFS);

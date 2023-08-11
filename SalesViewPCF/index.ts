@@ -13,6 +13,7 @@ export class SalesViewPCF
   private vm: SalesViewVM;
   context: ComponentFramework.Context<IInputs>;
   container: HTMLDivElement;
+  iHateThisButImGonnaDoItAnywaysBecauseImLazy: boolean = false;
   private serviceProvider: ServiceProvider;
 
   /**
@@ -64,7 +65,12 @@ export class SalesViewPCF
   public updateView(
     _context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
-    const context: any = this.context;
+    //because updateView is called twice everytime the form is loaded, we need to make sure we only execute the init method once
+    if (this.iHateThisButImGonnaDoItAnywaysBecauseImLazy) {
+      console.log('updateView init')
+      this.serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName).init();
+    }
+    this.iHateThisButImGonnaDoItAnywaysBecauseImLazy = !this.iHateThisButImGonnaDoItAnywaysBecauseImLazy;
     ReactDOM.render(
       createElement(App, {
         serviceProvider: this.serviceProvider,
