@@ -5,9 +5,7 @@ import { useVM } from '../viewModel/context';
 import CollapsibleRows from './CollapsibleRows';
 import TableHeaders from './TableHeaders';
 
-interface props { }
-
-const TableView = ({ }: props) => {
+const TableView = () => {
   const vm = useVM();
 
 
