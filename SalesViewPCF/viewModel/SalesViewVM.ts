@@ -60,7 +60,8 @@ export default class SalesViewVM {
     return this.SFS.filter((sfs) => {
       const esd = new Date(sfs.esd);
       const today = new Date();
-      const nextWeek = new Date(today.setDate(today.getDate() + 7));
+      const nextWeek = new Date();
+      nextWeek.setDate(today.getDate() + 7);
       return esd >= today && esd <= nextWeek;
     });
   }
@@ -68,19 +69,20 @@ export default class SalesViewVM {
   get nextWeek(): SalesFulfillmentStatus[] {
     return this.SFS.filter((sfs) => {
       const esd = new Date(sfs.esd);
-      const today = new Date();
-      const nextWeek = new Date(today.setDate(today.getDate() + 7));
-      const nextNextWeek = new Date(today.setDate(today.getDate() + 7));
-      return esd >= nextWeek && esd <= nextNextWeek;
+      const nextWeek = new Date();
+      const twoWeeks = new Date();
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      twoWeeks.setDate(twoWeeks.getDate() + 14);
+      return esd >= nextWeek && esd <= twoWeeks;
     });
   }
 
   get beyond(): SalesFulfillmentStatus[] {
     return this.SFS.filter((sfs) => {
       const esd = new Date(sfs.esd);
-      const today = new Date();
-      const nextWeek = new Date(today.setDate(today.getDate() + 14));
-      return esd > nextWeek;
+      const twoWeeks = new Date();
+      twoWeeks.setDate(twoWeeks.getDate() + 14);
+      return esd > twoWeeks;
     });
   }
 }
