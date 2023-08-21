@@ -54,10 +54,24 @@ export default class SalesViewVM {
   }
 
   /**
+   * @description gets the SFS that are past their due
+   */
+  get pastDue(): SalesFulfillmentStatus[] {
+    return this.SFS.filter((sfs) => {
+      if (!sfs.esd) return false;
+      const esd = new Date(sfs.esd);
+      const today = new Date();
+      return esd < today;
+    });
+  }
+
+  /**
    * @description gets the SFS that have their esd in the upcoming week
+   * @returns SalesFulfillmentStatus[]
    */
   get thisWeek(): SalesFulfillmentStatus[] {
     return this.SFS.filter((sfs) => {
+      if (!sfs.esd) return false;
       const esd = new Date(sfs.esd);
       const today = new Date();
       const nextWeek = new Date();
@@ -66,8 +80,13 @@ export default class SalesViewVM {
     });
   }
 
+  /**
+   * @description gets the SFS that have their esd in the upcoming week
+   * @returns SalesFulfillmentStatus[]
+   */
   get nextWeek(): SalesFulfillmentStatus[] {
     return this.SFS.filter((sfs) => {
+      if (!sfs.esd) return false;
       const esd = new Date(sfs.esd);
       const nextWeek = new Date();
       const twoWeeks = new Date();
@@ -77,12 +96,23 @@ export default class SalesViewVM {
     });
   }
 
+  /**
+   * @description gets the SFS that have their esd beyond the upcoming week
+   * @returns SalesFulfillmentStatus[]
+   */
   get beyond(): SalesFulfillmentStatus[] {
     return this.SFS.filter((sfs) => {
+      if (!sfs.esd) return false;
       const esd = new Date(sfs.esd);
       const twoWeeks = new Date();
       twoWeeks.setDate(twoWeeks.getDate() + 14);
       return esd > twoWeeks;
     });
   }
+
+  /**
+   * @description gets the SFS that dont have an esd
+   * @returns SalesFulfillmentStatus[]
+   */
+  get noEsd(): SalesFulfillmentStatus[] { return this.SFS.filter((sfs) => !sfs.esd); }
 }

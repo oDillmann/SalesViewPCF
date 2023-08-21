@@ -34,6 +34,7 @@ export class SalesViewPCF
     _state: ComponentFramework.Dictionary,
     container: HTMLDivElement
   ): void {
+    console.log('devin')
     console.info("Version 0.0.4");
     this.context = context;
     this.container = container;

@@ -40,9 +40,6 @@ export default class CdsService {
       "        <attribute name='axa_name'/>",
       "      </link-entity>",
       "    </link-entity>",
-      "    <filter>",
-      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}' operator='ge' value='${new Date(Date.now()).toISOString()}'/>`,
-      "    </filter>",
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
       "  </entity>",
       "</fetch>"
