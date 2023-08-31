@@ -14,11 +14,12 @@ const TableView = () => {
       <table style={{ display: 'block' }}>
         <TableHeaders Departments={vm.Departments} />
         <tbody>
-          <CollapsibleRows SFS={vm.pastDue} Departments={vm.Departments} periodTitle={"Past Due"} />
+          {vm.pastDue.length > 0 && <CollapsibleRows SFS={vm.pastDue} Departments={vm.Departments} periodTitle={"Past Due"} />}
+
           <CollapsibleRows SFS={vm.thisWeek} Departments={vm.Departments} periodTitle={"This Week"} />
           <CollapsibleRows SFS={vm.nextWeek} Departments={vm.Departments} periodTitle={"Next Week"} />
           <CollapsibleRows SFS={vm.beyond} Departments={vm.Departments} periodTitle={"Beyond"} />
-          <CollapsibleRows SFS={vm.noEsd} Departments={vm.Departments} periodTitle={"No Date"} />
+          {vm.noEsd.length > 0 && <CollapsibleRows SFS={vm.noEsd} Departments={vm.Departments} periodTitle={"No Date"} />}
         </tbody>
       </table>
     </Stack>

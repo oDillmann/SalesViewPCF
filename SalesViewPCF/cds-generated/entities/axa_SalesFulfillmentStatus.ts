@@ -13,10 +13,14 @@ export const axa_salesfulfillmentstatusMetadata = {
     utcconversiontimezonecode: "Integer",
     versionnumber: "BigInt",
     // Optionsets
+    axa_currentmilestone: "Optionset",
+    axa_currentphase: "Optionset",
     axa_locationbranch: "Optionset",
+    axa_salesstatus: "Optionset",
     statecode: "Optionset",
     statuscode: "Optionset",
     // Date Formats
+    axa_confirmeddeliverydate: "DateOnly:UserLocal",
     axa_esd: "DateOnly:UserLocal",
     axa_estimatedcustomerreceiptdate: "DateOnly:UserLocal",
     axa_estimatedpartsorderdate: "DateOnly:UserLocal",
@@ -43,6 +47,9 @@ export const axa_salesfulfillmentstatusMetadata = {
 
 // Attribute constants
 export enum axa_SalesFulfillmentStatusAttributes {
+  axa_ConfirmedDeliveryDate = "axa_confirmeddeliverydate",
+  axa_CurrentMilestone = "axa_currentmilestone",
+  axa_CurrentPhase = "axa_currentphase",
   axa_CustomerName = "axa_customername",
   axa_CustomerProspect = "axa_customerprospect",
   axa_CustomerProspectName = "axa_customerprospectname",
@@ -63,6 +70,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_ProjectedServiceStartDate = "axa_projectedservicestartdate",
   axa_SalesFulfillmentStatusId = "axa_salesfulfillmentstatusid",
   axa_SalespersonResponsible = "axa_salespersonresponsible",
+  axa_SalesStatus = "axa_salesstatus",
   axa_ServiceCallnumber = "axa_servicecallnumber",
   axa_ServiceCallnumberName = "axa_servicecallnumbername",
   axa_Statustxt = "axa_statustxt",
@@ -100,6 +108,12 @@ export enum axa_SalesFulfillmentStatusAttributes {
 
 // Early Bound Interface
 export interface axa_SalesFulfillmentStatus extends IEntity {
+  // Confirmed Delivery Date DateTimeType DateOnly:UserLocal
+  axa_confirmeddeliverydate?: Date | null;
+  // Current Milestone axa_milestoneoptions
+  axa_currentmilestone?: import("../enums/axa_milestoneoptions").axa_milestoneoptions | null;
+  // Current Phase axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase
+  axa_currentphase?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase | null;
   // Customer Name StringType
   axa_customername?: string | null;
   // Customer/Prospect LookupType
@@ -128,7 +142,7 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_internalfinancingrequired?: boolean | null;
   // Location/Branch crf08_nmclocation
   axa_locationbranch?: import("../enums/crf08_nmclocation").crf08_nmclocation | null;
-  // Mocel LookupType
+  // Model LookupType
   axa_mocel?: import("cdsify").EntityReference | null;
   //  StringType
   axa_mocelname?: string | null;
@@ -136,15 +150,17 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_name?: string | null;
   // Projected Service Start Date DateTimeType DateOnly:UserLocal
   axa_projectedservicestartdate?: Date | null;
-  // Sales Fulfillment Status UniqueidentifierType Unique identifier for entity instances
+  // Status UniqueidentifierType Unique identifier for entity instances
   axa_salesfulfillmentstatusid?: import("cdsify").Guid | null;
   // Salesperson Responsible StringType
   axa_salespersonresponsible?: string | null;
+  // Sales Status axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus
+  axa_salesstatus?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus | null;
   // Service Call number LookupType
   axa_servicecallnumber?: import("cdsify").EntityReference | null;
   //  StringType
   axa_servicecallnumbername?: string | null;
-  // Status(txt) StringType
+  // Status StringType
   axa_statustxt?: string | null;
   // Trade-in included BooleanType
   axa_tradeinincluded?: boolean | null;

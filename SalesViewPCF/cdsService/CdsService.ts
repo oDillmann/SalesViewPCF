@@ -1,6 +1,7 @@
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
+import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -40,6 +41,10 @@ export default class CdsService {
       "        <attribute name='axa_name'/>",
       "      </link-entity>",
       "    </link-entity>",
+      `    <filter type='or'>`,
+      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='eq' value='${axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus.NotStarted}'/>`,
+      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='eq' value='${axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus.InProgress}'/>`,
+      `    </filter>`,
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
       "  </entity>",
       "</fetch>"
