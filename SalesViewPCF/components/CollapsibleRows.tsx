@@ -1,4 +1,4 @@
-import { DirectionalHint, Icon, Stack, Text, TooltipHost } from '@fluentui/react';
+import { Icon, Stack, Text, TooltipHost, VerticalDivider } from '@fluentui/react';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useBoolean } from '@fluentui/react-hooks';
@@ -6,17 +6,19 @@ import { SalesFulfillmentStatus } from '../types/SalesFulfillmentStatus';
 import { useVM } from '../viewModel/context';
 import BodyRows from './BodyRows';
 import { axa_salesfulfillmentstatusMetadata } from '../cds-generated/entities/axa_SalesFulfillmentStatus';
+import HorizontalDivider from './HorizontalDivider';
 
 interface props {
   SFS: SalesFulfillmentStatus[];
   Departments: string[]
   periodTitle: string
+  pastDue?: boolean
 }
 
-const CollapsibleRows = ({ SFS, Departments, periodTitle }: props) => {
+const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
   const vm = useVM();
   const [expanded, { setTrue: expand, setFalse: collapse }] = useBoolean(false);
-  const periodTitleColor = "#5555ff"
+  const periodTitleColor = pastDue ? "#ff5555" : "#5555ff"
 
   return (
     <>
@@ -54,6 +56,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle }: props) => {
               <td>
                 <Stack
                   verticalAlign="center"
+                  tokens={{ childrenGap: '0.5rem' }}
                   onDoubleClick={() => {
                     vm.context.navigation.openForm({
                       entityName: axa_salesfulfillmentstatusMetadata.logicalName,
@@ -66,12 +69,19 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle }: props) => {
                       userSelect: 'none',
                       border: "2px solid #fff",
                       backgroundColor: '#eee',
-                      width: '200px',
+                      width: '250px',
                       wordWrap: 'break-word',
                       cursor: "pointer"
                     }
                   }}>
-                  <Text>{sf.title}</Text>
+                  <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between">
+                    <Text styles={{ root: { fontWeight: '900' } }}>{sf.title ?? "No Description"}</Text>
+                    <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.esd?.toLocaleDateString() ?? "No Due Date"}</Text>
+                  </Stack>
+                  <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between">
+                    <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.personResponsible ?? "No Sales Responsible"}</Text>
+                    <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.phase ?? "No Phase"}</Text>
+                  </Stack>
                 </Stack>
               </td>
               <BodyRows Departments={Departments} sf={sf} />

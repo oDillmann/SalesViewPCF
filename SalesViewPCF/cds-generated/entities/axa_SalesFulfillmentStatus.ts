@@ -39,7 +39,10 @@ export const axa_salesfulfillmentstatusMetadata = {
     createdonbehalfby: ["mscrm.systemuser"],
     createdby: ["mscrm.systemuser"],
     axa_ServiceCallnumber: ["mscrm.incident"],
+    axa_SalesResponsible: ["mscrm.systemuser"],
     axa_Mocel: ["mscrm.z2t_model"],
+    axa_Make: ["mscrm.z2t_make"],
+    axa_EquipmentNumberEQN: ["mscrm.z2t_equipment"],
     axa_DSF: ["mscrm.axa_dealsetupform"],
     axa_CustomerProspect: ["mscrm.account"],
   },
@@ -59,22 +62,33 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_DoesCustomerhavedatagovernanceform = "axa_doescustomerhavedatagovernanceform",
   axa_DSF = "axa_dsf",
   axa_DSFName = "axa_dsfname",
+  axa_EquipmentNumberEQN = "axa_equipmentnumbereqn",
+  axa_EquipmentNumberEQNName = "axa_equipmentnumbereqnname",
   axa_ESD = "axa_esd",
   axa_EstimatedCustomerReceiptDate = "axa_estimatedcustomerreceiptdate",
   axa_EstimatedPartsOrderDate = "axa_estimatedpartsorderdate",
+  axa_Instock = "axa_instock",
   axa_Internalfinancingrequired = "axa_internalfinancingrequired",
   axa_LocationBranch = "axa_locationbranch",
+  axa_Machinepurchaseordernumber = "axa_machinepurchaseordernumber",
+  axa_Machinesalesordernumber = "axa_machinesalesordernumber",
+  axa_Make = "axa_make",
+  axa_MakeName = "axa_makename",
   axa_Mocel = "axa_mocel",
   axa_MocelName = "axa_mocelname",
   axa_Name = "axa_name",
   axa_ProjectedServiceStartDate = "axa_projectedservicestartdate",
   axa_SalesFulfillmentStatusId = "axa_salesfulfillmentstatusid",
-  axa_SalespersonResponsible = "axa_salespersonresponsible",
+  axa_SalesResponsible = "axa_salesresponsible",
+  axa_SalesResponsibleName = "axa_salesresponsiblename",
+  axa_SalesResponsibleYomiName = "axa_salesresponsibleyominame",
   axa_SalesStatus = "axa_salesstatus",
+  axa_Serialnumber = "axa_serialnumber",
   axa_ServiceCallnumber = "axa_servicecallnumber",
   axa_ServiceCallnumberName = "axa_servicecallnumbername",
   axa_Statustxt = "axa_statustxt",
   axa_Tradeinincluded = "axa_tradeinincluded",
+  axa_Warehouse = "axa_warehouse",
   CreatedBy = "createdby",
   CreatedByName = "createdbyname",
   CreatedByYomiName = "createdbyyominame",
@@ -128,20 +142,34 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_doescustomerhavecws?: boolean | null;
   // Does Customer have data governance form BooleanType
   axa_doescustomerhavedatagovernanceform?: boolean | null;
-  // DSF LookupType
+  // MSF LookupType
   axa_dsf?: import("cdsify").EntityReference | null;
   //  StringType
   axa_dsfname?: string | null;
+  // Equipment Number(EQN#) LookupType
+  axa_equipmentnumbereqn?: import("cdsify").EntityReference | null;
+  //  StringType
+  axa_equipmentnumbereqnname?: string | null;
   // ESD DateTimeType DateOnly:UserLocal
   axa_esd?: Date | null;
   // Estimated Customer Receipt Date DateTimeType DateOnly:UserLocal
   axa_estimatedcustomerreceiptdate?: Date | null;
   // Estimated Parts Order Date DateTimeType DateOnly:UserLocal
   axa_estimatedpartsorderdate?: Date | null;
+  // In stock BooleanType
+  axa_instock?: boolean | null;
   // Internal financing required BooleanType
   axa_internalfinancingrequired?: boolean | null;
   // Location/Branch crf08_nmclocation
   axa_locationbranch?: import("../enums/crf08_nmclocation").crf08_nmclocation | null;
+  // Machine purchase order number StringType
+  axa_machinepurchaseordernumber?: string | null;
+  // Machine sales order number StringType
+  axa_machinesalesordernumber?: string | null;
+  // Make LookupType
+  axa_make?: import("cdsify").EntityReference | null;
+  //  StringType
+  axa_makename?: string | null;
   // Model LookupType
   axa_mocel?: import("cdsify").EntityReference | null;
   //  StringType
@@ -152,10 +180,16 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_projectedservicestartdate?: Date | null;
   // Status UniqueidentifierType Unique identifier for entity instances
   axa_salesfulfillmentstatusid?: import("cdsify").Guid | null;
-  // Salesperson Responsible StringType
-  axa_salespersonresponsible?: string | null;
+  // Sales Responsible LookupType
+  axa_salesresponsible?: import("cdsify").EntityReference | null;
+  //  StringType
+  axa_salesresponsiblename?: string | null;
+  //  StringType
+  axa_salesresponsibleyominame?: string | null;
   // Sales Status axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus
   axa_salesstatus?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus | null;
+  // Serial number StringType
+  axa_serialnumber?: string | null;
   // Service Call number LookupType
   axa_servicecallnumber?: import("cdsify").EntityReference | null;
   //  StringType
@@ -164,6 +198,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_statustxt?: string | null;
   // Trade-in included BooleanType
   axa_tradeinincluded?: boolean | null;
+  // Warehouse StringType
+  axa_warehouse?: string | null;
   // Created By LookupType Unique identifier of the user who created the record.
   createdby?: import("cdsify").EntityReference | null;
   //  StringType

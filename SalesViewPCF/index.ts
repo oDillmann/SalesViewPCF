@@ -13,7 +13,6 @@ export class SalesViewPCF
   private vm: SalesViewVM;
   context: ComponentFramework.Context<IInputs>;
   container: HTMLDivElement;
-  iHateThisButImGonnaDoItAnywaysBecauseImLazy: boolean = false;
   private serviceProvider: ServiceProvider;
 
   /**
@@ -34,7 +33,7 @@ export class SalesViewPCF
     _state: ComponentFramework.Dictionary,
     container: HTMLDivElement
   ): void {
-    console.info("Version 0.0.5");
+    console.info("Version 0.0.6");
     this.context = context;
     this.container = container;
     this.serviceProvider = new ServiceProvider();
@@ -50,6 +49,7 @@ export class SalesViewPCF
       "notifyOutputChanged",
       notifyOutputChanged
     );
+    this.context.parameters.sampleDataSet.paging.setPageSize(1000);
     this.vm = new SalesViewVM(this.serviceProvider);
     this.serviceProvider.register<SalesViewVM>(
       SalesViewVM.serviceName,
@@ -65,12 +65,15 @@ export class SalesViewPCF
   public updateView(
     _context: ComponentFramework.Context<IInputs>
   ): React.ReactElement {
-    //because updateView is called twice everytime the form is loaded, we need to make sure we only execute the init method once
-    if (this.iHateThisButImGonnaDoItAnywaysBecauseImLazy) {
-      console.log('updateView init')
+    const vm = this.serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName)
+    if (_context.parameters.sampleDataSet.loading) {
+      vm.isViewLoading = true;
       this.serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName).init();
+    } else {
+      vm.isViewLoading = false;
+      vm.formatViewRecords(_context.parameters.sampleDataSet.records)
     }
-    this.iHateThisButImGonnaDoItAnywaysBecauseImLazy = !this.iHateThisButImGonnaDoItAnywaysBecauseImLazy;
+    //because updateView is called twice everytime the form is loaded, we need to make sure we only execute the init method once
     ReactDOM.render(
       createElement(App, {
         serviceProvider: this.serviceProvider,

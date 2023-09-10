@@ -10,6 +10,7 @@ export default class CdsService {
   public Context: ComponentFramework.Context<IInputs>;
   departmentAlias = "department";
   departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
+  salesResponsible = "salesresponsible";
 
   constructor(context: ComponentFramework.Context<IInputs>) {
     this.Context = context;
@@ -32,6 +33,11 @@ export default class CdsService {
       `  <entity name='${axa_salesfulfillmentstatusMetadata.logicalName}'>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Description}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
+      `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
+      "      <attribute name='fullname'/>",
+      "    </link-entity>",
       `    <link-entity name='${axa_departmentfulfillmentstatusMetadata.logicalName}' from='${axa_DepartmentfulfillmentStatusAttributes.axa_SalesFulfillment}' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId}' link-type='outer' alias='${this.departmentAlias}'>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_Name}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}'/>`,
@@ -41,10 +47,6 @@ export default class CdsService {
       "        <attribute name='axa_name'/>",
       "      </link-entity>",
       "    </link-entity>",
-      `    <filter type='or'>`,
-      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='eq' value='${axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus.NotStarted}'/>`,
-      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='eq' value='${axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus.InProgress}'/>`,
-      `    </filter>`,
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
       "  </entity>",
       "</fetch>"
@@ -65,8 +67,8 @@ export default class CdsService {
     }
   }
 
-  private formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[]): SalesFulfillmentStatus[] {
-    const SFS: { [id: string]: SalesFulfillmentStatus } = {}
+  private formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[]): Record<string, SalesFulfillmentStatus> {
+    const SFS: Record<string, SalesFulfillmentStatus> = {}
 
     data.forEach((item) => {
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
@@ -74,6 +76,8 @@ export default class CdsService {
         SFS[id] = {
           id,
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
+          personResponsible: item[`${this.salesResponsible}.fullname`],
+          phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           esd: item[axa_SalesFulfillmentStatusAttributes.axa_ESD],
           department: {}
         }
@@ -83,6 +87,6 @@ export default class CdsService {
         SFS[id].department[item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
     })
 
-    return Object.values(SFS);
+    return SFS;
   }
 }
