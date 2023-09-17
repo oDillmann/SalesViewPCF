@@ -72,6 +72,8 @@ export default class CdsService {
     const SFS: Record<string, SalesFulfillmentStatus> = {}
 
     data.forEach((item) => {
+      const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
+      const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
       if (!SFS[id]) {
         SFS[id] = {
@@ -79,7 +81,7 @@ export default class CdsService {
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
           personResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
-          esd: item[axa_SalesFulfillmentStatusAttributes.axa_ESD] ? new Date(item[axa_SalesFulfillmentStatusAttributes.axa_ESD]) : undefined,
+          DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           location: item[axa_SalesFulfillmentStatusAttributes.axa_LocationBranch],
           department: {}
         }

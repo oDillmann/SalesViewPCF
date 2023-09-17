@@ -5,7 +5,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
-export enum ViewType { 'Date', 'Phase', 'Location' };
+export enum ViewType { 'Date', 'Phase', 'Location' }
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -119,7 +119,7 @@ export default class SalesViewVM {
    * @description gets the SFS that are past their due
    */
   get pastDue() {
-    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date < new Date());
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date < new Date());
   }
 
   /**
@@ -128,7 +128,7 @@ export default class SalesViewVM {
    */
   get thisWeek() {
     const today = new Date();
-    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date >= today && date <= this.addDays(today, 7));
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date >= today && date <= this.addDays(today, 7));
   }
 
   /**
@@ -138,7 +138,7 @@ export default class SalesViewVM {
   get nextWeek() {
     const nextWeekStart = this.addDays(new Date(), 7);
     const nextWeekEnd = this.addDays(new Date(), 14);
-    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date >= nextWeekStart && date <= nextWeekEnd);
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date >= nextWeekStart && date <= nextWeekEnd);
   }
 
   /**
@@ -147,13 +147,13 @@ export default class SalesViewVM {
    */
   get beyond() {
     const twoWeeks = this.addDays(new Date(), 14);
-    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date > twoWeeks);
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > twoWeeks);
   }
 
   // Grouping by month
   get pastDueByMonth() {
-    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date < new Date()),
-      sfs => `${sfs.esd?.toLocaleString('default', { month: 'long' })}, ${sfs.esd?.getFullYear()}`,
+    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date < new Date()),
+      sfs => `${sfs.DeliveryDate?.toLocaleString('default', { month: 'long' })}, ${sfs.DeliveryDate?.getFullYear()}`,
       "No Date"
     );
     return grouped;
@@ -162,8 +162,8 @@ export default class SalesViewVM {
   get groupedByMonth() {
     const today = new Date();
     const nextWeek = this.addDays(today, 7);
-    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date > nextWeek),
-      sfs => `${sfs.esd?.toLocaleString('default', { month: 'long' })}, ${sfs.esd?.getFullYear()}`,
+    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > nextWeek),
+      sfs => `${sfs.DeliveryDate?.toLocaleString('default', { month: 'long' })}, ${sfs.DeliveryDate?.getFullYear()}`,
       "No Date"
     );
     return grouped;
@@ -174,7 +174,7 @@ export default class SalesViewVM {
    * @returns SalesFulfillmentStatus[]
    */
   get noEsd() {
-    return this.SFS.filter((sfs) => !sfs.esd);
+    return this.SFS.filter((sfs) => !sfs.DeliveryDate);
   }
 
   public formatViewRecords(
@@ -197,12 +197,14 @@ export default class SalesViewVM {
     const title = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Description);
     const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase)
     const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_LocationBranch)
-    let esd = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
+    const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel)
+    let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
+    let confirmedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate)) : undefined;
     // @ts-ignore
     const fullnameAttr = Object.keys(record._record.fields).find((key) => key.endsWith('fullname'))
     // @ts-ignore
     const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value
-    return { id, title, phase, esd: esd, personResponsible, location, department: {} }
+    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, personResponsible, model, location, department: {} }
   }
 
   /** 

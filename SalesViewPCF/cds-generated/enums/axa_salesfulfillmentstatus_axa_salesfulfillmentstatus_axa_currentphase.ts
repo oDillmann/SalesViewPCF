@@ -1,10 +1,10 @@
 /* eslint-disable*/
 // Enum axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase
-export enum axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase {
-  PhaseI = 752580000,
-  PhaseII = 752580001,
-  PhaseIII = 752580002,
-  PhaseIV = 752580003,
-  PhaseV = 752580004,
+export const enum axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase {
+  _1Procurement = 752580000,
+  _2EstimatedDelivery = 752580001,
+  _3ConfirmedDelivery = 752580002,
+  _4Delivery = 752580003,
+  _5CloseOut = 752580004,
 }
-
+  

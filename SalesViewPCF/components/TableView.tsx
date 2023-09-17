@@ -1,8 +1,6 @@
 import { Stack } from '@fluentui/react';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase } from '../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase';
-import { crf08_nmclocation } from '../cds-generated/enums/crf08_nmclocation';
 import { useVM } from '../viewModel/context';
 import SalesViewVM, { ViewType } from '../viewModel/SalesViewVM';
 import CollapsibleRows from './CollapsibleRows';
@@ -13,7 +11,7 @@ const groupByHandlers = {
     [...Object.keys(vm.pastDueByMonth).map((month) => {
       return <CollapsibleRows key={month} SFS={vm.pastDueByMonth[month]} Departments={vm.Departments} periodTitle={month} pastDue />
     }),
-    <CollapsibleRows SFS={vm.thisWeek} Departments={vm.Departments} periodTitle={"This Week"} />,
+    <CollapsibleRows key="specialkeyUwU" SFS={vm.thisWeek} Departments={vm.Departments} periodTitle={"This Week"} />,
     ...Object.keys(vm.groupedByMonth).map((month) => {
       return <CollapsibleRows key={month} SFS={vm.groupedByMonth[month]} Departments={vm.Departments} periodTitle={month} />
     }),

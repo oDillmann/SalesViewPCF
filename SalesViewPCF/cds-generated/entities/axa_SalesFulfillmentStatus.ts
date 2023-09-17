@@ -23,6 +23,7 @@ export const axa_salesfulfillmentstatusMetadata = {
     axa_confirmeddeliverydate: "DateOnly:UserLocal",
     axa_esd: "DateOnly:UserLocal",
     axa_estimatedcustomerreceiptdate: "DateOnly:UserLocal",
+    axa_estimateddeliverytocustomer: "DateOnly:UserLocal",
     axa_estimatedpartsorderdate: "DateOnly:UserLocal",
     axa_projectedservicestartdate: "DateOnly:UserLocal",
     createdon: "DateAndTime:UserLocal",
@@ -66,6 +67,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_EquipmentNumberEQNName = "axa_equipmentnumbereqnname",
   axa_ESD = "axa_esd",
   axa_EstimatedCustomerReceiptDate = "axa_estimatedcustomerreceiptdate",
+  axa_EstimatedDeliverytoCustomer = "axa_estimateddeliverytocustomer",
   axa_EstimatedPartsOrderDate = "axa_estimatedpartsorderdate",
   axa_Instock = "axa_instock",
   axa_Internalfinancingrequired = "axa_internalfinancingrequired",
@@ -150,10 +152,12 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_equipmentnumbereqn?: import("cdsify").EntityReference | null;
   //  StringType
   axa_equipmentnumbereqnname?: string | null;
-  // ESD DateTimeType DateOnly:UserLocal
+  // Estimated Arrival Date DateTimeType DateOnly:UserLocal
   axa_esd?: Date | null;
   // Estimated Customer Receipt Date DateTimeType DateOnly:UserLocal
   axa_estimatedcustomerreceiptdate?: Date | null;
+  // Estimated Delivery to Customer DateTimeType DateOnly:UserLocal
+  axa_estimateddeliverytocustomer?: Date | null;
   // Estimated Parts Order Date DateTimeType DateOnly:UserLocal
   axa_estimatedpartsorderdate?: Date | null;
   // In stock BooleanType
