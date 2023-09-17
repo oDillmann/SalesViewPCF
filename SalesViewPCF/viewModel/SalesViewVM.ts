@@ -1,10 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { axa_SalesFulfillmentStatusAttributes } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
-import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase";
 import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
+
+export enum ViewType { 'Date', 'Phase', 'Location' };
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -22,7 +23,7 @@ export default class SalesViewVM {
   public isViewLoading: boolean = true;
   get isLoading() { return this.isControlLoading || this.isViewLoading; }
   public forceUpdate: () => void;
-  private viewType: 'Phase' | 'Date' = 'Date'; get ViewType() { return this.viewType; }; set ViewType(value) { this.viewType = value; }
+  private viewType: ViewType = ViewType.Date; get ViewType() { return this.viewType; } set ViewType(value) { this.viewType = value; }
   saveHandlerAdded: any;
 
   constructor(serviceProvider: ServiceProvider) {
@@ -63,146 +64,118 @@ export default class SalesViewVM {
     }
   }
 
+  // Helper function for grouping
+  private groupBy<SFS, Prop extends string | undefined>(
+    data: SFS[],
+    propExtractor: (item: SFS) => Prop,
+    emptyPropValue: string
+  ): Record<string, SFS[]> {
+    return data.reduce((acc, item) => {
+      const prop = propExtractor(item) ?? emptyPropValue;
+      if (!acc[prop]) {
+        acc[prop] = [];
+      }
+      acc[prop].push(item);
+      return acc;
+    }, {} as Record<string, SFS[]>);
+  }
+
+  // Helper function for sorting
+  private sortByKeys<SFS>(grouped: Record<string, SFS[]>, comparator?: (a: string, b: string) => number) {
+    const orderedKeys = Object.keys(grouped).sort(comparator);
+    return orderedKeys.reduce((acc, key) => {
+      acc[key] = grouped[key];
+      return acc;
+    }, {} as Record<string, SFS[]>);
+  }
+
+  // Date filter helper
+  private dateFilter<SFS>(data: SFS[], dateExtractor: (item: SFS) => Date | null, dateCompare: (date: Date) => boolean) {
+    return data.filter((item) => {
+      const date = dateExtractor(item);
+      return date && dateCompare(date);
+    });
+  }
+
+
+
+  get groupedByPhase() {
+    const grouped = this.groupBy(this.SFS, sfs => sfs.phase, "No Phase");
+    return this.sortByKeys(grouped, (a, b) => a === 'No Phase' ? 1 : b === 'No Phase' ? -1 : a.localeCompare(b));
+  }
+
+  get groupedByLocation() {
+    const grouped = this.groupBy(this.SFS, sfs => sfs.location, "No Location");
+    return this.sortByKeys(grouped, (a, b) => a === 'No Location' ? 1 : b === 'No Location' ? -1 : a.localeCompare(b));
+  }
+  // Helper function to add date offset
+  private addDays(date: Date, days: number): Date {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + days);
+    return newDate;
+  }
+
   /**
    * @description gets the SFS that are past their due
    */
-  get pastDue(): SalesFulfillmentStatus[] {
-    return this.SFS.filter((sfs) => {
-      if (!sfs.esd) return false;
-      const esd = new Date(sfs.esd);
-      const today = new Date();
-      return esd < today;
-    });
+  get pastDue() {
+    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date < new Date());
   }
 
   /**
    * @description gets the SFS that have their esd in the upcoming week
    * @returns SalesFulfillmentStatus[]
    */
-  get thisWeek(): SalesFulfillmentStatus[] {
-    return this.SFS.filter((sfs) => {
-      if (!sfs.esd) return false;
-      const esd = new Date(sfs.esd);
-      const today = new Date();
-      const nextWeek = new Date();
-      nextWeek.setDate(today.getDate() + 7);
-      return esd >= today && esd <= nextWeek;
-    });
+  get thisWeek() {
+    const today = new Date();
+    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date >= today && date <= this.addDays(today, 7));
   }
 
   /**
    * @description gets the SFS that have their esd in the upcoming week
    * @returns SalesFulfillmentStatus[]
    */
-  get nextWeek(): SalesFulfillmentStatus[] {
-    return this.SFS.filter((sfs) => {
-      if (!sfs.esd) return false;
-      const esd = new Date(sfs.esd);
-      const nextWeek = new Date();
-      const twoWeeks = new Date();
-      nextWeek.setDate(nextWeek.getDate() + 7);
-      twoWeeks.setDate(twoWeeks.getDate() + 14);
-      return esd >= nextWeek && esd <= twoWeeks;
-    });
+  get nextWeek() {
+    const nextWeekStart = this.addDays(new Date(), 7);
+    const nextWeekEnd = this.addDays(new Date(), 14);
+    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date >= nextWeekStart && date <= nextWeekEnd);
   }
 
   /**
    * @description gets the SFS that have their esd beyond the upcoming week
    * @returns SalesFulfillmentStatus[]
    */
-  get beyond(): SalesFulfillmentStatus[] {
-    return this.SFS.filter((sfs) => {
-      if (!sfs.esd) return false;
-      const esd = new Date(sfs.esd);
-      const twoWeeks = new Date();
-      twoWeeks.setDate(twoWeeks.getDate() + 14);
-      return esd > twoWeeks;
-    });
+  get beyond() {
+    const twoWeeks = this.addDays(new Date(), 14);
+    return this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date > twoWeeks);
   }
 
-  get pastDueByMonth(): Record<string, SalesFulfillmentStatus[]> {
+  // Grouping by month
+  get pastDueByMonth() {
+    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date < new Date()),
+      sfs => `${sfs.esd?.toLocaleString('default', { month: 'long' })}, ${sfs.esd?.getFullYear()}`,
+      "No Date"
+    );
+    return grouped;
+  }
+
+  get groupedByMonth() {
     const today = new Date();
-
-    return this.SFS.reduce((acc, sfs) => {
-      if (!sfs.esd) return acc;
-
-      const esd = new Date(sfs.esd);
-
-      // Exclude past due items
-      if (esd > today) return acc;
-
-
-      const month = esd.toLocaleString('default', { month: 'long' });
-      const year = esd.getFullYear();
-      const monthYear = `${month}, ${year}`;
-
-      if (!acc[monthYear]) {
-        acc[monthYear] = [];
-      }
-
-      acc[monthYear].push(sfs);
-      return acc;
-    }, {} as Record<string, SalesFulfillmentStatus[]>);
-
-  }
-
-  get groupedByMonth(): Record<string, SalesFulfillmentStatus[]> {
-    const today = new Date();
-    const nextWeek = new Date();
-    nextWeek.setDate(today.getDate() + 7);
-
-    return this.SFS.reduce((acc, sfs) => {
-      if (!sfs.esd) return acc;
-
-      const esd = new Date(sfs.esd);
-
-      // Exclude past due items
-      if (esd < today) return acc;
-
-      // Exclude this week's items
-      if (esd >= today && esd <= nextWeek) return acc;
-
-      const month = esd.toLocaleString('default', { month: 'long' });
-      const year = esd.getFullYear();
-      const monthYear = `${month}, ${year}`;
-
-      if (!acc[monthYear]) {
-        acc[monthYear] = [];
-      }
-
-      acc[monthYear].push(sfs);
-      return acc;
-    }, {} as Record<string, SalesFulfillmentStatus[]>);
-  }
-
-  get groupedByPhase(): Record<axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase, SalesFulfillmentStatus[]> {
-    const grouped = this.SFS.reduce((acc, sfs) => {
-      const phase = sfs.phase ?? 'No Phase';
-      if (!acc[phase]) {
-        acc[phase] = [];
-      }
-      acc[phase].push(sfs);
-      return acc;
-    }, {} as Record<axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase, SalesFulfillmentStatus[]>)
-    //order the phases from Phase I to Phase V and lastly no phase
-    const orderedGrouped = Object.keys(grouped).sort((a, b) => {
-      if (a === 'No Phase') return 1;
-      if (b === 'No Phase') return -1;
-      return a.localeCompare(b);
-    }).reduce((acc, key) => {
-      const phase = key as any as axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase;
-      acc[phase] = grouped[phase];
-      return acc;
-    }, {} as Record<axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase, SalesFulfillmentStatus[]>);
-    return orderedGrouped;
+    const nextWeek = this.addDays(today, 7);
+    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.esd ? new Date(sfs.esd) : null, date => date > nextWeek),
+      sfs => `${sfs.esd?.toLocaleString('default', { month: 'long' })}, ${sfs.esd?.getFullYear()}`,
+      "No Date"
+    );
+    return grouped;
   }
 
   /**
    * @description gets the SFS that dont have an esd
    * @returns SalesFulfillmentStatus[]
    */
-  get noEsd(): SalesFulfillmentStatus[] { return this.SFS.filter((sfs) => !sfs.esd); }
-
+  get noEsd() {
+    return this.SFS.filter((sfs) => !sfs.esd);
+  }
 
   public formatViewRecords(
     records: {
@@ -214,7 +187,6 @@ export default class SalesViewVM {
       const formattedRecord = this.formatViewRecord(record, recordId);
       formattedRecords.push(formattedRecord);
     }
-
     this.ViewSFS = formattedRecords
     if (!this.isControlLoading) this.mergeSFS();
     return formattedRecords;
@@ -223,14 +195,14 @@ export default class SalesViewVM {
   private formatViewRecord(record: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord, recordId: string): SalesFulfillmentStatus {
     const id = recordId;
     const title = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Description);
-    const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase) as any as axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase;
+    const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase)
+    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_LocationBranch)
     let esd = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
     // @ts-ignore
     const fullnameAttr = Object.keys(record._record.fields).find((key) => key.endsWith('fullname'))
     // @ts-ignore
     const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value
-
-    return { id, title, phase, esd: esd, personResponsible, department: {} }
+    return { id, title, phase, esd: esd, personResponsible, location, department: {} }
   }
 
   /** 
@@ -242,8 +214,7 @@ export default class SalesViewVM {
     this.SFS = this.ViewSFS.map((viewSFS) => {
       const controlSFS = this.ControlSFS[viewSFS.id];
       if (!controlSFS) return viewSFS;
-      const result = { ...viewSFS, department: controlSFS.department }
-      return result
+      return { ...viewSFS, department: controlSFS.department }
     })
   }
 }

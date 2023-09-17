@@ -2,6 +2,7 @@ import { Button, DefaultButton, Dropdown, makeStyles, PrimaryButton, Stack, Text
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useVM } from '../viewModel/context';
+import { ViewType } from '../viewModel/SalesViewVM';
 
 interface props {
   Departments: string[];
@@ -30,12 +31,15 @@ const TableHeaders = ({ Departments }: props) => {
               <Text styles={{ root: { fontWeight: '600' } }}>Group By</Text>
               <Dropdown
                 styles={{ root: { width: '100px' } }}
-                defaultSelectedKey="Date"
-                options={[
-                  { key: "Phase", text: "By Phase" },
-                  { key: "Date", text: "By Date" }
-                ]}
-                onChange={(e, o) => { vm.ViewType = o?.key as any }}
+                defaultSelectedKey="0"
+                // put all the options from the enum ViewType
+                options={
+                  Object.entries(ViewType).map(([key, value]) => {
+                    if (isNaN(Number(value)))
+                      return { key, text: value as string }
+                  }).filter((x): x is { key: string, text: string } => x !== undefined)
+                }
+                onChange={(e, o) => { if (!o) return; vm.ViewType = o.key as ViewType }}
               />
             </Stack>
           </th>

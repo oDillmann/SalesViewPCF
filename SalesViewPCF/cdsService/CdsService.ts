@@ -1,7 +1,6 @@
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
-import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_salesstatus";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -33,8 +32,10 @@ export default class CdsService {
       `  <entity name='${axa_salesfulfillmentstatusMetadata.logicalName}'>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Description}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_LocationBranch}'/>`,
       `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
       "      <attribute name='fullname'/>",
       "    </link-entity>",
@@ -78,7 +79,8 @@ export default class CdsService {
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
           personResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
-          esd: item[axa_SalesFulfillmentStatusAttributes.axa_ESD],
+          esd: item[axa_SalesFulfillmentStatusAttributes.axa_ESD] ? new Date(item[axa_SalesFulfillmentStatusAttributes.axa_ESD]) : undefined,
+          location: item[axa_SalesFulfillmentStatusAttributes.axa_LocationBranch],
           department: {}
         }
       }
