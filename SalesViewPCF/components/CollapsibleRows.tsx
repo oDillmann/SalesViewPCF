@@ -97,8 +97,8 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
               }}
             >
               <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between">
-                <Text styles={{ root: { fontWeight: '900', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "" } }}>{sf.title ?? "No Description"}</Text>
-                <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.DeliveryDate?.toLocaleDateString() ?? "No Due Date"}</Text>
+                <Text styles={{ root: { fontWeight: '900', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "" } }}>{sf.title ?? "No Customer Name"}</Text>
+                <Text styles={{ root: { fontSize: '0.8rem', ...(sf.isDateConfirmed ? { fontWeight: '900' } : {}) } }}>{sf.DeliveryDate?.toLocaleDateString() ?? "No Due Date"}</Text>
               </Stack>
               <Stack tokens={{ childrenGap: "0.2rem" }} >
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >

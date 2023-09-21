@@ -194,17 +194,20 @@ export default class SalesViewVM {
 
   private formatViewRecord(record: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord, recordId: string): SalesFulfillmentStatus {
     const id = recordId;
-    const title = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Description);
-    const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase)
-    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_LocationBranch)
-    const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel)
+    const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase);
+    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_LocationBranch);
+    const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel);
     let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
     let confirmedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate)) : undefined;
     // @ts-ignore
-    const fullnameAttr = Object.keys(record._record.fields).find((key) => key.endsWith('fullname'))
+    const fullnameAttr = Object.keys(record._record.fields).find((key) => key.endsWith('fullname'));
     // @ts-ignore
-    const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value
-    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, personResponsible, model, location, department: {} }
+    const customerNameAttr = Object.keys(record._record.fields).find((key) => key.endsWith('.name'));
+    // @ts-ignore
+    const title = record._record.fields[customerNameAttr]?.innerValue?.value;
+    // @ts-ignore
+    const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value;
+    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, personResponsible, model, location, department: {} }
   }
 
   /** 

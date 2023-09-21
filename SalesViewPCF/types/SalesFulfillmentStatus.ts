@@ -5,11 +5,12 @@ import { crf08_nmclocation } from "../cds-generated/enums/crf08_nmclocation"
 
 export type SalesFulfillmentStatus = {
   id: string,
-  DeliveryDate?: Date,
-  personResponsible?: string,
+  title?: string, // customer name
   phase?: string
-  title?: string,
   location?: string,
   model?: string,
+  DeliveryDate?: Date,
+  isDateConfirmed: boolean,
+  personResponsible?: string,
   department: { [department: string]: axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus }
 }

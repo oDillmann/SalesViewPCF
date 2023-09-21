@@ -82,6 +82,7 @@ export default class CdsService {
           personResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
+          isDateConfirmed: !!confirmedDate,
           location: item[axa_SalesFulfillmentStatusAttributes.axa_LocationBranch],
           department: {}
         }
