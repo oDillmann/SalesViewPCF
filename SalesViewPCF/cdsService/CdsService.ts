@@ -35,7 +35,7 @@ export default class CdsService {
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
-      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_LocationBranch}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Warehouse}'/>`,
       `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
       "      <attribute name='fullname'/>",
       "    </link-entity>",
@@ -83,7 +83,7 @@ export default class CdsService {
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           isDateConfirmed: !!confirmedDate,
-          location: item[axa_SalesFulfillmentStatusAttributes.axa_LocationBranch],
+          location: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
           department: {}
         }
       }

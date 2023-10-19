@@ -72,9 +72,7 @@ export default class SalesViewVM {
   ): Record<string, SFS[]> {
     return data.reduce((acc, item) => {
       const prop = propExtractor(item) ?? emptyPropValue;
-      if (!acc[prop]) {
-        acc[prop] = [];
-      }
+      if (!acc[prop]) { acc[prop] = []; }
       acc[prop].push(item);
       return acc;
     }, {} as Record<string, SFS[]>);
@@ -195,7 +193,7 @@ export default class SalesViewVM {
   private formatViewRecord(record: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord, recordId: string): SalesFulfillmentStatus {
     const id = recordId;
     const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase);
-    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_LocationBranch);
+    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Warehouse);
     const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel);
     let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
     let confirmedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate)) : undefined;

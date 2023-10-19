@@ -9,22 +9,22 @@ import TableHeaders from './TableHeaders';
 const groupByHandlers = {
   [ViewType.Date]: (vm: SalesViewVM) => (
     [...Object.keys(vm.pastDueByMonth).map((month) => {
-      return <CollapsibleRows key={month} SFS={vm.pastDueByMonth[month]} Departments={vm.Departments} periodTitle={month} pastDue />
+      return <CollapsibleRows key={month + "pastDue"} SFS={vm.pastDueByMonth[month]} Departments={vm.Departments} periodTitle={month} pastDue />
     }),
     <CollapsibleRows key="specialkeyUwU" SFS={vm.thisWeek} Departments={vm.Departments} periodTitle={"This Week"} />,
     ...Object.keys(vm.groupedByMonth).map((month) => {
-      return <CollapsibleRows key={month} SFS={vm.groupedByMonth[month]} Departments={vm.Departments} periodTitle={month} />
+      return <CollapsibleRows key={month + "upcoming"} SFS={vm.groupedByMonth[month]} Departments={vm.Departments} periodTitle={month} />
     }),
     vm.noEsd.length > 0 && <CollapsibleRows SFS={vm.noEsd} Departments={vm.Departments} periodTitle={"No Date"} />
     ].filter(Boolean) as JSX.Element[]
   ),
   //
   [ViewType.Phase]: (vm: SalesViewVM) => Object.keys(vm.groupedByPhase).map((phase) => {
-    return <CollapsibleRows key={phase} SFS={vm.groupedByPhase[phase]} Departments={vm.Departments} periodTitle={phase} />
+    return <CollapsibleRows key={phase + "phase"} SFS={vm.groupedByPhase[phase]} Departments={vm.Departments} periodTitle={phase} />
   }) as JSX.Element[],
   //
   [ViewType.Location]: (vm: SalesViewVM) => Object.keys(vm.groupedByLocation).map((location) => {
-    return <CollapsibleRows key={location} SFS={vm.groupedByLocation[location]} Departments={vm.Departments} periodTitle={location} />
+    return <CollapsibleRows key={location + "location"} SFS={vm.groupedByLocation[location]} Departments={vm.Departments} periodTitle={location} />
   }) as JSX.Element[],
   // Add more handlers here as needed
 };
