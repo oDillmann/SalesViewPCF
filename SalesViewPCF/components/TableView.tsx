@@ -23,8 +23,8 @@ const groupByHandlers = {
     return <CollapsibleRows key={phase + "phase"} SFS={vm.groupedByPhase[phase]} Departments={vm.Departments} periodTitle={phase} />
   }) as JSX.Element[],
   //
-  [ViewType.Location]: (vm: SalesViewVM) => Object.keys(vm.groupedByLocation).map((location) => {
-    return <CollapsibleRows key={location + "location"} SFS={vm.groupedByLocation[location]} Departments={vm.Departments} periodTitle={location} />
+  [ViewType.Warehouse]: (vm: SalesViewVM) => Object.keys(vm.groupedByWarehouse).map((warehouse) => {
+    return <CollapsibleRows key={warehouse + "warehouse"} SFS={vm.groupedByWarehouse[warehouse]} Departments={vm.Departments} periodTitle={warehouse} />
   }) as JSX.Element[],
   // Add more handlers here as needed
 };
@@ -34,7 +34,7 @@ const TableView = () => {
 
   const groupByComponent = React.useMemo(() => {
     return groupByHandlers[vm.ViewType](vm);
-  }, [vm.ViewType, vm.groupedByPhase, vm.groupedByMonth, vm.groupedByLocation, vm.pastDueByMonth, vm.thisWeek, vm.noEsd, vm.Departments]);
+  }, [vm.ViewType, vm.groupedByPhase, vm.groupedByMonth, vm.groupedByWarehouse, vm.pastDueByMonth, vm.thisWeek, vm.noEsd, vm.Departments]);
 
   return (
     <Stack horizontal styles={{ root: { padding: '0 0 0 1rem', height: '100%', width: '100%', overflowY: 'scroll' } }}>

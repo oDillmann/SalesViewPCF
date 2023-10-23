@@ -4,7 +4,7 @@ export type SalesFulfillmentStatus = {
   id: string,
   title?: string, // customer name
   phase?: string
-  location?: string,
+  warehouse?: string,
   model?: string,
   DeliveryDate?: Date,
   isDateConfirmed: boolean,

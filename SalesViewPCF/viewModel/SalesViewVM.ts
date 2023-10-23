@@ -5,7 +5,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
-export enum ViewType { 'Date', 'Phase', 'Location' }
+export enum ViewType { 'Date', 'Phase', 'Warehouse' }
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -102,9 +102,9 @@ export default class SalesViewVM {
     return this.sortByKeys(grouped, (a, b) => a === 'No Phase' ? 1 : b === 'No Phase' ? -1 : a.localeCompare(b));
   }
 
-  get groupedByLocation() {
-    const grouped = this.groupBy(this.SFS, sfs => sfs.location, "No Location");
-    return this.sortByKeys(grouped, (a, b) => a === 'No Location' ? 1 : b === 'No Location' ? -1 : a.localeCompare(b));
+  get groupedByWarehouse() {
+    const grouped = this.groupBy(this.SFS, sfs => sfs.warehouse, "No Warehouse");
+    return this.sortByKeys(grouped, (a, b) => a === 'No Warehouse' ? 1 : b === 'No Warehouse' ? -1 : a.localeCompare(b));
   }
   // Helper function to add date offset
   private addDays(date: Date, days: number): Date {
@@ -193,7 +193,7 @@ export default class SalesViewVM {
   private formatViewRecord(record: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord, recordId: string): SalesFulfillmentStatus {
     const id = recordId;
     const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase);
-    const location = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Warehouse);
+    const warehouse = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Warehouse);
     const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel);
     let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
     let confirmedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate)) : undefined;
@@ -205,7 +205,7 @@ export default class SalesViewVM {
     const title = record._record.fields[customerNameAttr]?.innerValue?.value;
     // @ts-ignore
     const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value;
-    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, personResponsible, model, location, department: {} }
+    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, personResponsible, model, warehouse, department: {} }
   }
 
   /** 

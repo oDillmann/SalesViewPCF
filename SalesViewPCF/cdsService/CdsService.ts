@@ -83,7 +83,7 @@ export default class CdsService {
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           isDateConfirmed: !!confirmedDate,
-          location: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
+          warehouse: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
           department: {}
         }
       }

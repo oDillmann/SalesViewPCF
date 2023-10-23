@@ -107,7 +107,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
                 </Stack>
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.model ?? "No Model"}</Text>
-                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.location ?? "No Location"}</Text>
+                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.warehouse ?? "No Warehouse"}</Text>
                 </Stack>
               </Stack>
             </Stack>
