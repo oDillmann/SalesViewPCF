@@ -30,7 +30,7 @@ const TableHeaders = ({ Departments }: props) => {
             >
               <Text styles={{ root: { fontWeight: '600' } }}>Group By</Text>
               <Dropdown
-                styles={{ root: { width: '100px' } }}
+                styles={{ root: { width: '150px' } }}
                 defaultSelectedKey="0"
                 // put all the options from the enum ViewType
                 options={
