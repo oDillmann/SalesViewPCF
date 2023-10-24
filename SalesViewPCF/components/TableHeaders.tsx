@@ -31,7 +31,7 @@ const TableHeaders = ({ Departments }: props) => {
               <Text styles={{ root: { fontWeight: '600' } }}>Group By</Text>
               <Dropdown
                 styles={{ root: { width: '100%' } }}
-                defaultSelectedKey="0"
+                defaultSelectedKey={Object.values(ViewType).findIndex((value) => value == ViewType[vm.ViewType]).toString() || 0}
                 options={
                   // put all the options from the enum ViewType
                   Object.entries(ViewType).map(([key, value]) => {

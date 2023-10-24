@@ -95,7 +95,6 @@ export default class CdsService {
       if (departmentId && Departments.includes(depName))
         SFS[id].department[item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
     })
-    console.log(SFS)
     return SFS;
   }
 }
