@@ -5,7 +5,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
-export enum ViewType { 'Date', 'Phase', 'Warehouse' }
+export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse' }
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -106,6 +106,11 @@ export default class SalesViewVM {
     const grouped = this.groupBy(this.SFS, sfs => sfs.warehouse, "No Warehouse");
     return this.sortByKeys(grouped, (a, b) => a === 'No Warehouse' ? 1 : b === 'No Warehouse' ? -1 : a.localeCompare(b));
   }
+
+  get groupBySalesResponsible() {
+    const grouped = this.groupBy(this.SFS, sfs => sfs.salesResponsible, "No Sales Responsible");
+    return this.sortByKeys(grouped, (a, b) => a === 'No Sales Responsible' ? 1 : b === 'No Sales Responsible' ? -1 : a.localeCompare(b));
+  }
   // Helper function to add date offset
   private addDays(date: Date, days: number): Date {
     const newDate = new Date(date);
@@ -204,8 +209,8 @@ export default class SalesViewVM {
     // @ts-ignore
     const title = record._record.fields[customerNameAttr]?.innerValue?.value;
     // @ts-ignore
-    const personResponsible = record._record.fields[fullnameAttr]?.innerValue?.value;
-    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, personResponsible, model, warehouse, department: {} }
+    const salesResponsible = record._record.fields[fullnameAttr]?.innerValue?.value;
+    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, salesResponsible: salesResponsible, model, warehouse, department: {} }
   }
 
   /** 

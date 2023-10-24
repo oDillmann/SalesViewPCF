@@ -20,6 +20,7 @@ const BodyRows = ({ Departments, sf }: props) => {
               root: {
                 padding: '0.6rem 1rem',
                 border: '2px solid #fff',
+                borderRadius: '3px',
                 backgroundColor: statusColor,
                 height: '100%'
               }

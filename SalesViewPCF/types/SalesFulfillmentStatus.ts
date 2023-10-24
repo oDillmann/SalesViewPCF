@@ -8,6 +8,6 @@ export type SalesFulfillmentStatus = {
   model?: string,
   DeliveryDate?: Date,
   isDateConfirmed: boolean,
-  personResponsible?: string,
+  salesResponsible?: string,
   department: { [department: string]: axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus }
 }

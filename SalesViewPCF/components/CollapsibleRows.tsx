@@ -72,7 +72,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
         </td>
       </tr>
       {SFS.map((sf) => (
-        <tr key={sf.id} style={{ display: expanded ? 'table-row' : 'none' }}>
+        <tr className="tableRow" key={sf.id} style={{ display: expanded ? 'table-row' : 'none' }}>
           <td>
             <Stack
               verticalAlign="center"
@@ -102,7 +102,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
               </Stack>
               <Stack tokens={{ childrenGap: "0.2rem" }} >
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
-                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.personResponsible ?? "No Sales Rep"}</Text>
+                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.salesResponsible ?? "No Sales Rep"}</Text>
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.phase ?? "No Phase"}</Text>
                 </Stack>
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >

@@ -5,6 +5,7 @@ import ServiceProvider from '../ServiceProvider';
 import ContextProvider from '../viewModel/context';
 import SalesViewVM from '../viewModel/SalesViewVM';
 import TableView from './TableView';
+import "./globals.css"
 
 export interface props {
   serviceProvider: ServiceProvider;

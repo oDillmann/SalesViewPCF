@@ -1,6 +1,7 @@
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
+import { axa_department_axa_department_statecode } from "../cds-generated/enums/axa_department_axa_department_statecode";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -22,6 +23,7 @@ export default class CdsService {
       `  <entity name='${axa_departmentMetadata.logicalName}'>`,
       `    <attribute name='${axa_DepartmentAttributes.axa_Name}'/>`,
       `    <attribute name='${axa_DepartmentAttributes.axa_Order}'/>`,
+      `    <attribute name='${axa_DepartmentAttributes.statecode}'/>`,
       `    <order attribute='${axa_DepartmentAttributes.axa_Order}'/>`,
       "  </entity>",
       "</fetch>"
@@ -57,10 +59,11 @@ export default class CdsService {
       this.Context.webAPI.retrieveMultipleRecords("axa_salesfulfillmentstatus", DFSFetchXml)
     ]);
 
-    const formattedResult = this.formatSalesFulfillmentStatus(SFS.entities);
     const departments = departmentsRes.entities
+      .filter(i => i[axa_DepartmentAttributes.statecode] === axa_department_axa_department_statecode.Active)
       .sort(i => i[axa_DepartmentAttributes.axa_Order] - i[axa_DepartmentAttributes.axa_Order])
       .map(item => item[axa_DepartmentAttributes.axa_Name])
+    const formattedResult = this.formatSalesFulfillmentStatus(SFS.entities, departments);
 
     return {
       departments,
@@ -68,7 +71,7 @@ export default class CdsService {
     }
   }
 
-  private formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[]): Record<string, SalesFulfillmentStatus> {
+  private formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[], Departments: string[]): Record<string, SalesFulfillmentStatus> {
     const SFS: Record<string, SalesFulfillmentStatus> = {}
 
     data.forEach((item) => {
@@ -79,7 +82,7 @@ export default class CdsService {
         SFS[id] = {
           id,
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
-          personResponsible: item[`${this.salesResponsible}.fullname`],
+          salesResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           isDateConfirmed: !!confirmedDate,
@@ -88,10 +91,11 @@ export default class CdsService {
         }
       }
       const departmentId = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}`];
-      if (departmentId)
+      const depName = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`];
+      if (departmentId && Departments.includes(depName))
         SFS[id].department[item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
     })
-
+    console.log(SFS)
     return SFS;
   }
 }
