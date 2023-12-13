@@ -91,7 +91,8 @@ export default class SalesViewVM {
   private dateFilter<SFS>(data: SFS[], dateExtractor: (item: SFS) => Date | null, dateCompare: (date: Date) => boolean) {
     return data.filter((item) => {
       const date = dateExtractor(item);
-      return date && dateCompare(date);
+      const res = date && dateCompare(date);
+      return res;
     });
   }
 
@@ -126,7 +127,7 @@ export default class SalesViewVM {
   }
 
   /**
-   * @description gets the SFS that have their esd in the upcoming week
+   * @description gets the SFS that have their esd in the current week
    * @returns SalesFulfillmentStatus[]
    */
   get thisWeek() {
@@ -149,23 +150,20 @@ export default class SalesViewVM {
    * @returns SalesFulfillmentStatus[]
    */
   get beyond() {
-    const twoWeeks = this.addDays(new Date(), 14);
+    const twoWeeks = this.addDays(new Date(), 7);
     return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > twoWeeks);
   }
 
   // Grouping by month
   get pastDueByMonth() {
-    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date < new Date()),
+    const grouped = this.groupBy(this.pastDue,
       sfs => `${sfs.DeliveryDate?.toLocaleString('default', { month: 'long' })}, ${sfs.DeliveryDate?.getFullYear()}`,
-      "No Date"
-    );
+      "No Date");
     return grouped;
   }
 
   get groupedByMonth() {
-    const today = new Date();
-    const nextWeek = this.addDays(today, 7);
-    const grouped = this.groupBy(this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > nextWeek),
+    const grouped = this.groupBy(this.beyond,
       sfs => `${sfs.DeliveryDate?.toLocaleString('default', { month: 'long' })}, ${sfs.DeliveryDate?.getFullYear()}`,
       "No Date"
     );
@@ -223,6 +221,11 @@ export default class SalesViewVM {
       const controlSFS = this.ControlSFS[viewSFS.id];
       if (!controlSFS) return viewSFS;
       return { ...viewSFS, department: controlSFS.department }
+    }).sort((a, b) => {
+      if (a.DeliveryDate && b.DeliveryDate) {
+        return a.DeliveryDate.getTime() - b.DeliveryDate.getTime();
+      }
+      return 0;
     })
   }
 }
