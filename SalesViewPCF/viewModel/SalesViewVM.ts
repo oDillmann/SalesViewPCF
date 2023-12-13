@@ -1,11 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import { axa_SalesFulfillmentStatusAttributes } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
+import { z2t_type } from "../cds-generated/enums/z2t_type";
 import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
-export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse' }
+export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse', 'Type' }
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
@@ -96,8 +97,6 @@ export default class SalesViewVM {
     });
   }
 
-
-
   get groupedByPhase() {
     const grouped = this.groupBy(this.SFS, sfs => sfs.phase, "No Phase");
     return this.sortByKeys(grouped, (a, b) => a === 'No Phase' ? 1 : b === 'No Phase' ? -1 : a.localeCompare(b));
@@ -108,10 +107,17 @@ export default class SalesViewVM {
     return this.sortByKeys(grouped, (a, b) => a === 'No Warehouse' ? 1 : b === 'No Warehouse' ? -1 : a.localeCompare(b));
   }
 
+  get groupedByType() {
+    // some copy paste magic for the .replace(/([a-z])([A-Z])/g, '$1 $2'); partwouldn't hurt anyone right? 
+    const grouped = this.groupBy(this.SFS, sfs => { return sfs.OpType ? z2t_type[sfs.OpType].replace(/([a-z])([A-Z])/g, '$1 $2') : undefined }, "No Type");
+    return this.sortByKeys(grouped, (a, b) => a === 'No Type' ? 1 : b === 'No Type' ? -1 : a.localeCompare(b));
+  }
+
   get groupBySalesResponsible() {
     const grouped = this.groupBy(this.SFS, sfs => sfs.salesResponsible, "No Sales Responsible");
     return this.sortByKeys(grouped, (a, b) => a === 'No Sales Responsible' ? 1 : b === 'No Sales Responsible' ? -1 : a.localeCompare(b));
   }
+
   // Helper function to add date offset
   private addDays(date: Date, days: number): Date {
     const newDate = new Date(date);
@@ -208,23 +214,32 @@ export default class SalesViewVM {
     const title = record._record.fields[customerNameAttr]?.innerValue?.value;
     // @ts-ignore
     const salesResponsible = record._record.fields[fullnameAttr]?.innerValue?.value;
-    return { id, title, phase, DeliveryDate: confirmedDate ?? estimatedDate, isDateConfirmed: !!confirmedDate, salesResponsible: salesResponsible, model, warehouse, department: {} }
+    return {
+      id,
+      title,
+      phase,
+      DeliveryDate: confirmedDate ?? estimatedDate,
+      isDateConfirmed: !!confirmedDate,
+      salesResponsible: salesResponsible,
+      model,
+      warehouse,
+      OpType: z2t_type.Sales,
+      department: {},
+    }
   }
 
   /** 
    * This function merges the control SFS with the view SFS
-   * because the View SFS dont have departments, i need to get the departments myself
+   * because the View SFS dont have departments, i need to get the departments myself as well as the OpType
    * so i do that and then merge them
    */
   private mergeSFS() {
     this.SFS = this.ViewSFS.map((viewSFS) => {
       const controlSFS = this.ControlSFS[viewSFS.id];
       if (!controlSFS) return viewSFS;
-      return { ...viewSFS, department: controlSFS.department }
+      return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType }
     }).sort((a, b) => {
-      if (a.DeliveryDate && b.DeliveryDate) {
-        return a.DeliveryDate.getTime() - b.DeliveryDate.getTime();
-      }
+      if (a.DeliveryDate && b.DeliveryDate) { return a.DeliveryDate.getTime() - b.DeliveryDate.getTime(); }
       return 0;
     })
   }

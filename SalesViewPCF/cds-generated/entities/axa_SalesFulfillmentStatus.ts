@@ -15,6 +15,8 @@ export const axa_salesfulfillmentstatusMetadata = {
     // Optionsets
     axa_currentmilestone: "Optionset",
     axa_currentphase: "Optionset",
+    axa_doescustomerhavecws: "Optionset",
+    axa_doescustomerhavedatagovernanceform: "Optionset",
     axa_locationbranch: "Optionset",
     axa_salesstatus: "Optionset",
     statecode: "Optionset",
@@ -25,7 +27,9 @@ export const axa_salesfulfillmentstatusMetadata = {
     axa_estimatedcustomerreceiptdate: "DateOnly:UserLocal",
     axa_estimateddeliverytocustomer: "DateOnly:UserLocal",
     axa_estimatedpartsorderdate: "DateOnly:UserLocal",
+    axa_estimatedpartsorderdate1: "DateOnly:UserLocal",
     axa_projectedservicestartdate: "DateOnly:UserLocal",
+    axa_projectedservicestartdate1: "DateOnly:UserLocal",
     createdon: "DateAndTime:UserLocal",
     modifiedon: "DateAndTime:UserLocal",
     overriddencreatedon: "DateOnly:UserLocal",
@@ -55,9 +59,11 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_CurrentMilestone = "axa_currentmilestone",
   axa_CurrentPhase = "axa_currentphase",
   axa_CustomerName = "axa_customername",
+  axa_CustomerPO = "axa_customerpo",
   axa_CustomerProspect = "axa_customerprospect",
   axa_CustomerProspectName = "axa_customerprospectname",
   axa_CustomerProspectYomiName = "axa_customerprospectyominame",
+  axa_CWSID = "axa_cwsid",
   axa_Description = "axa_description",
   axa_DoescustomerhaveCWS = "axa_doescustomerhavecws",
   axa_DoesCustomerhavedatagovernanceform = "axa_doescustomerhavedatagovernanceform",
@@ -69,6 +75,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_EstimatedCustomerReceiptDate = "axa_estimatedcustomerreceiptdate",
   axa_EstimatedDeliverytoCustomer = "axa_estimateddeliverytocustomer",
   axa_EstimatedPartsOrderDate = "axa_estimatedpartsorderdate",
+  axa_EstimatedPartsOrderDate1 = "axa_estimatedpartsorderdate1",
   axa_Instock = "axa_instock",
   axa_Internalfinancingrequired = "axa_internalfinancingrequired",
   axa_LocationBranch = "axa_locationbranch",
@@ -80,6 +87,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_MocelName = "axa_mocelname",
   axa_Name = "axa_name",
   axa_ProjectedServiceStartDate = "axa_projectedservicestartdate",
+  axa_ProjectedServiceStartDate1 = "axa_projectedservicestartdate1",
   axa_SalesFulfillmentStatusId = "axa_salesfulfillmentstatusid",
   axa_SalesResponsible = "axa_salesresponsible",
   axa_SalesResponsibleName = "axa_salesresponsiblename",
@@ -90,6 +98,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_ServiceCallnumberName = "axa_servicecallnumbername",
   axa_Statustxt = "axa_statustxt",
   axa_Tradeinincluded = "axa_tradeinincluded",
+  axa_TypeofSale = "axa_typeofsale",
   axa_Warehouse = "axa_warehouse",
   CreatedBy = "createdby",
   CreatedByName = "createdbyname",
@@ -132,18 +141,22 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_currentphase?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_currentphase | null;
   // Customer Name StringType
   axa_customername?: string | null;
+  // Customer PO StringType
+  axa_customerpo?: string | null;
   // Customer/Prospect LookupType
   axa_customerprospect?: import("cdsify").EntityReference | null;
   //  StringType
   axa_customerprospectname?: string | null;
   //  StringType
   axa_customerprospectyominame?: string | null;
+  // CWSID StringType
+  axa_cwsid?: string | null;
   // Description StringType
   axa_description?: string | null;
-  // Does customer have  CWS BooleanType
-  axa_doescustomerhavecws?: boolean | null;
-  // Does Customer have data governance form BooleanType
-  axa_doescustomerhavedatagovernanceform?: boolean | null;
+  // Does customer have  CWS axa_cwsstatus
+  axa_doescustomerhavecws?: import("../enums/axa_cwsstatus").axa_cwsstatus | null;
+  // Does Customer have data governance form axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform
+  axa_doescustomerhavedatagovernanceform?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform | null;
   // MSF LookupType
   axa_dsf?: import("cdsify").EntityReference | null;
   //  StringType
@@ -160,6 +173,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_estimateddeliverytocustomer?: Date | null;
   // Estimated Parts Order Date DateTimeType DateOnly:UserLocal
   axa_estimatedpartsorderdate?: Date | null;
+  // Estimated Parts Order Date1 DateTimeType DateOnly:UserLocal
+  axa_estimatedpartsorderdate1?: Date | null;
   // In stock BooleanType
   axa_instock?: boolean | null;
   // Internal financing required BooleanType
@@ -182,6 +197,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_name?: string | null;
   // Projected Service Start Date DateTimeType DateOnly:UserLocal
   axa_projectedservicestartdate?: Date | null;
+  // Projected Service Start Date1 DateTimeType DateOnly:UserLocal
+  axa_projectedservicestartdate1?: Date | null;
   // Status UniqueidentifierType Unique identifier for entity instances
   axa_salesfulfillmentstatusid?: import("cdsify").Guid | null;
   // Sales Responsible LookupType
@@ -202,6 +219,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_statustxt?: string | null;
   // Trade-in included BooleanType
   axa_tradeinincluded?: boolean | null;
+  // Type of Sale StringType
+  axa_typeofsale?: string | null;
   // Warehouse StringType
   axa_warehouse?: string | null;
   // Created By LookupType Unique identifier of the user who created the record.

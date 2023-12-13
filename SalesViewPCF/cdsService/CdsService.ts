@@ -1,7 +1,10 @@
+import { axa_DealSetupFormAttributes, axa_dealsetupformMetadata } from "../cds-generated/entities/axa_DealSetupForm";
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
+import { OpportunityAttributes, opportunityMetadata } from "../cds-generated/entities/Opportunity";
 import { axa_department_axa_department_statecode } from "../cds-generated/enums/axa_department_axa_department_statecode";
+import { z2t_type } from "../cds-generated/enums/z2t_type";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -9,6 +12,7 @@ export default class CdsService {
   public static readonly serviceName = "CdsService";
   public Context: ComponentFramework.Context<IInputs>;
   departmentAlias = "department";
+  opportunityAlias = "opportunity";
   departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
   salesResponsible = "salesresponsible";
 
@@ -40,6 +44,11 @@ export default class CdsService {
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Warehouse}'/>`,
       `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
       "      <attribute name='fullname'/>",
+      "    </link-entity>",
+      `    <link-entity name='${axa_dealsetupformMetadata.logicalName}' from='${axa_DealSetupFormAttributes.axa_DealSetupFormId}' to='${axa_SalesFulfillmentStatusAttributes.axa_DSF}' link-type='outer'>`,
+      `      <link-entity name='${opportunityMetadata.logicalName}' from='${OpportunityAttributes.OpportunityId}' to='${axa_DealSetupFormAttributes.axa_Opportunity}' link-type='outer' alias='${this.opportunityAlias}'>`,
+      `        <attribute name='${OpportunityAttributes.z2t_OpType}'/>`,
+      "      </link-entity>",
       "    </link-entity>",
       `    <link-entity name='${axa_departmentfulfillmentstatusMetadata.logicalName}' from='${axa_DepartmentfulfillmentStatusAttributes.axa_SalesFulfillment}' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId}' link-type='outer' alias='${this.departmentAlias}'>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_Name}'/>`,
@@ -85,6 +94,7 @@ export default class CdsService {
           salesResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
+          OpType: item[`${this.opportunityAlias}.${OpportunityAttributes.z2t_OpType}`],
           isDateConfirmed: !!confirmedDate,
           warehouse: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
           department: {}

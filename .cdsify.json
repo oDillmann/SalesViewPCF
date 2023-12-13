@@ -2,7 +2,9 @@
   "entities": [
     "axa_departmentfulfillmentstatus",
     "axa_department",
-    "axa_salesfulfillmentstatus"
+    "axa_salesfulfillmentstatus",
+    "opportunity",
+    "axa_dealsetupform"
   ],
   "actions": [],
   "functions": [],
