@@ -26,7 +26,7 @@ const groupByHandlers = {
   [ViewType.Warehouse]: (vm: SalesViewVM) => Object.keys(vm.groupedByWarehouse).map((warehouse) => {
     return <CollapsibleRows key={warehouse + "warehouse"} SFS={vm.groupedByWarehouse[warehouse]} Departments={vm.Departments} periodTitle={warehouse} />
   }) as JSX.Element[],
-  [ViewType.Type]: (vm: SalesViewVM) => Object.keys(vm.groupedByType).map((type) => {
+  [ViewType['Type of Sale']]: (vm: SalesViewVM) => Object.keys(vm.groupedByType).map((type) => {
     return <CollapsibleRows key={type + "type"} SFS={vm.groupedByType[type]} Departments={vm.Departments} periodTitle={type} />
   })
   // Add more handlers here as needed

@@ -6,7 +6,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
-export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse', 'Type' }
+export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse', 'Type of Sale' }
 
 export default class SalesViewVM {
   public static readonly serviceName = "SalesViewVM";
