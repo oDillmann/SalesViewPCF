@@ -30,6 +30,27 @@ const BodyRows = ({ Departments, sf }: props) => {
           </td>
         )
       })}
+      <td />
+      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
+        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }}>
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.SA ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
+        </Stack>
+      </td>
+      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
+        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }}>
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DG ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
+        </Stack>
+      </td>
+      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
+        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }}>
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DSR ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
+        </Stack>
+      </td>
+      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
+        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }}>
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.CWS ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
+        </Stack>
+      </td>
     </>
   )
 }

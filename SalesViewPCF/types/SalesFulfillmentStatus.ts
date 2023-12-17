@@ -12,5 +12,14 @@ export type SalesFulfillmentStatus = {
   DeliveryDate?: Date,
   isDateConfirmed: boolean,
   salesResponsible?: string,
+  requirements: {
+    //Sales Agreement
+    SA: boolean,
+    //Data Goverance
+    DG: boolean,
+    //Delivery Service Record
+    DSR: boolean,
+    CWS: boolean,
+  }
   department: { [department: string]: axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus }
 }

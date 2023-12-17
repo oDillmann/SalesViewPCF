@@ -13,6 +13,7 @@ export default class CdsService {
   public Context: ComponentFramework.Context<IInputs>;
   departmentAlias = "department";
   opportunityAlias = "opportunity";
+  dsfAlias = "DSF";
   departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
   salesResponsible = "salesresponsible";
 
@@ -45,7 +46,11 @@ export default class CdsService {
       `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
       "      <attribute name='fullname'/>",
       "    </link-entity>",
-      `    <link-entity name='${axa_dealsetupformMetadata.logicalName}' from='${axa_DealSetupFormAttributes.axa_DealSetupFormId}' to='${axa_SalesFulfillmentStatusAttributes.axa_DSF}' link-type='outer'>`,
+      `    <link-entity name='${axa_dealsetupformMetadata.logicalName}' from='${axa_DealSetupFormAttributes.axa_DealSetupFormId}' to='${axa_SalesFulfillmentStatusAttributes.axa_DSF}' link-type='outer' alias='${this.dsfAlias}'>`,
+      `    <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}'/>`,
+      `    <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}'/>`,
+      `    <attribute name='${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}'/>`,
+      `    <attribute name='${axa_DealSetupFormAttributes.axa_CWSID}'/>`,
       `      <link-entity name='${opportunityMetadata.logicalName}' from='${OpportunityAttributes.OpportunityId}' to='${axa_DealSetupFormAttributes.axa_Opportunity}' link-type='outer' alias='${this.opportunityAlias}'>`,
       `        <attribute name='${OpportunityAttributes.z2t_OpType}'/>`,
       "      </link-entity>",
@@ -97,6 +102,12 @@ export default class CdsService {
           OpType: item[`${this.opportunityAlias}.${OpportunityAttributes.z2t_OpType}`],
           isDateConfirmed: !!confirmedDate,
           warehouse: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
+          requirements: {
+            SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
+            DG: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}`] ? true : false,
+            DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
+            CWS: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_CWSID}`] ? true : false,
+          },
           department: {}
         }
       }

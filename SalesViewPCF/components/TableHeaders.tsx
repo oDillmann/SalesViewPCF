@@ -18,6 +18,11 @@ const TableHeaders = ({ Departments }: props) => {
         {Departments.map((d) => (
           <col key={d} style={{ width: "auto" }} />
         ))}
+        <col style={{ width: "auto" }} />
+        <col style={{ width: "auto" }} />
+        <col style={{ width: "auto" }} />
+        <col style={{ width: "auto" }} />
+        <col style={{ width: "auto" }} />
       </colgroup>
       <thead>
         <tr className="tableHeader" style={{ display: 'table-row', }}>
@@ -44,15 +49,36 @@ const TableHeaders = ({ Departments }: props) => {
           </th>
           {Departments.map((d) => (
             <th key={d} style={{ height: 0, whiteSpace: 'nowrap' }}>
-              <Stack verticalAlign="center" styles={{
-                root: {
-                  padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee',
-                }
-              }}>
+              <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
                 <Text styles={{ root: { fontWeight: '600' } }}>{d}</Text>
               </Stack>
             </th>
           ))}
+          <th style={{ height: 0, whiteSpace: 'nowrap', backgroundColor: 'white' }}>
+            <Stack horizontalAlign="center" styles={{ root: { marginInline: '10px', height: '100%' } }}>
+              <div style={{ width: '1px', height: '100%', backgroundColor: '#aaa' }}> </div>
+            </Stack>
+          </th>
+          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+            <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
+              <Text styles={{ root: { fontWeight: '600' } }}>Sales Agreement</Text>
+            </Stack>
+          </th>
+          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+            <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
+              <Text styles={{ root: { fontWeight: '600' } }}>Data Goverance</Text>
+            </Stack>
+          </th>
+          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+            <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
+              <Text styles={{ root: { fontWeight: '600' } }}>Delivery Service Record</Text>
+            </Stack>
+          </th>
+          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+            <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
+              <Text styles={{ root: { fontWeight: '600' } }}>CWS ID Provided</Text>
+            </Stack>
+          </th>
         </tr>
       </thead>
     </>

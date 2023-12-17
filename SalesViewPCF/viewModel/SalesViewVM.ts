@@ -218,12 +218,13 @@ export default class SalesViewVM {
       id,
       title,
       phase,
+      OpType: z2t_type.Sales,
       DeliveryDate: confirmedDate ?? estimatedDate,
       isDateConfirmed: !!confirmedDate,
       salesResponsible: salesResponsible,
       model,
       warehouse,
-      OpType: z2t_type.Sales,
+      requirements: { SA: false, DG: false, DSR: false, CWS: false },
       department: {},
     }
   }
@@ -237,7 +238,7 @@ export default class SalesViewVM {
     this.SFS = this.ViewSFS.map((viewSFS) => {
       const controlSFS = this.ControlSFS[viewSFS.id];
       if (!controlSFS) return viewSFS;
-      return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType }
+      return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType, requirements: controlSFS.requirements }
     }).sort((a, b) => {
       if (a.DeliveryDate && b.DeliveryDate) { return a.DeliveryDate.getTime() - b.DeliveryDate.getTime(); }
       return 0;
