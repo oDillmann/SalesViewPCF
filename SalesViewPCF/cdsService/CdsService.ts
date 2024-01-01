@@ -4,7 +4,6 @@ import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentsta
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
 import { OpportunityAttributes, opportunityMetadata } from "../cds-generated/entities/Opportunity";
 import { axa_department_axa_department_statecode } from "../cds-generated/enums/axa_department_axa_department_statecode";
-import { z2t_type } from "../cds-generated/enums/z2t_type";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -55,14 +54,16 @@ export default class CdsService {
       `        <attribute name='${OpportunityAttributes.z2t_OpType}'/>`,
       "      </link-entity>",
       "    </link-entity>",
-      `    <link-entity name='${axa_departmentfulfillmentstatusMetadata.logicalName}' from='${axa_DepartmentfulfillmentStatusAttributes.axa_SalesFulfillment}' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId}' link-type='outer' alias='${this.departmentAlias}'>`,
+      `    <link-entity name='${axa_departmentfulfillmentstatusMetadata.logicalName}' from='${axa_DepartmentfulfillmentStatusAttributes.axa_SalesFulfillment}' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId}' link-type='outer' alias='${this.departmentFulfillmentStatusAlias}'>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_Name}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_Department}'/>`,
+      `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.ModifiedOn}'/>`,
       `      <attribute name='${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}'/>`,
-      `      <link-entity name='axa_department' from='axa_departmentid' to='axa_department' link-type='outer' alias='${this.departmentFulfillmentStatusAlias}'>`,
+      `      <link-entity name='axa_department' from='axa_departmentid' to='axa_department' link-type='outer' alias='${this.departmentAlias}'>`,
       "        <attribute name='axa_name'/>",
       "      </link-entity>",
+      `      <order attribute="${axa_DepartmentfulfillmentStatusAttributes.ModifiedOn}" descending="true" />`,
       "    </link-entity>",
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
       "  </entity>",
@@ -111,10 +112,10 @@ export default class CdsService {
           department: {}
         }
       }
-      const departmentId = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}`];
-      const depName = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`];
-      if (departmentId && Departments.includes(depName))
-        SFS[id].department[item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentAttributes.axa_Name}`]] = item[`${this.departmentAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
+      const departmentId = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}`];
+      const status = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
+      const depName = item[`${this.departmentAlias}.${axa_DepartmentAttributes.axa_Name}`];
+      if (departmentId && Departments.includes(depName) && !SFS[id].department[depName]) SFS[id].department[depName] = status;
     })
     return SFS;
   }
