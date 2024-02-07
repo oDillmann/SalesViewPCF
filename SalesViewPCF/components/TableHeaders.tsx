@@ -66,7 +66,7 @@ const TableHeaders = ({ Departments }: props) => {
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>
             <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
-              <Text styles={{ root: { fontWeight: '600' } }}>Data Goverance</Text>
+              <Text styles={{ root: { fontWeight: '600' } }}>Data Governance</Text>
             </Stack>
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>
