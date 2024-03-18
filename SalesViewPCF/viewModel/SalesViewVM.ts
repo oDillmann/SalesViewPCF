@@ -224,7 +224,7 @@ export default class SalesViewVM {
       salesResponsible: salesResponsible,
       model,
       warehouse,
-      requirements: { SA: false, DG: false, DSR: false, CWS: false },
+      requirements: { MDC: false, SA: false, DG: false, DSR: false, CWS: false },
       department: {},
     }
   }

@@ -28,6 +28,7 @@ export const axa_salesfulfillmentstatusMetadata = {
     axa_estimateddeliverytocustomer: "DateOnly:UserLocal",
     axa_estimatedpartsorderdate: "DateOnly:UserLocal",
     axa_estimatedpartsorderdate1: "DateOnly:UserLocal",
+    axa_machinedeliveredtocustomer: "DateOnly:UserLocal",
     axa_projectedservicestartdate: "DateOnly:UserLocal",
     axa_projectedservicestartdate1: "DateOnly:UserLocal",
     createdon: "DateAndTime:UserLocal",
@@ -79,6 +80,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_Instock = "axa_instock",
   axa_Internalfinancingrequired = "axa_internalfinancingrequired",
   axa_LocationBranch = "axa_locationbranch",
+  axa_MachineDeliveredtoCustomer = "axa_machinedeliveredtocustomer",
   axa_Machinepurchaseordernumber = "axa_machinepurchaseordernumber",
   axa_Machinesalesordernumber = "axa_machinesalesordernumber",
   axa_Make = "axa_make",
@@ -181,6 +183,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_internalfinancingrequired?: boolean | null;
   // Location/Branch crf08_nmclocation
   axa_locationbranch?: import("../enums/crf08_nmclocation").crf08_nmclocation | null;
+  // Machine Delivered to Customer DateTimeType DateOnly:UserLocal
+  axa_machinedeliveredtocustomer?: Date | null;
   // Machine purchase order number StringType
   axa_machinepurchaseordernumber?: string | null;
   // Machine sales order number StringType

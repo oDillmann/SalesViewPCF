@@ -1,5 +1,4 @@
 import { axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus } from "../cds-generated/enums/axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus"
-import { opportunity_z2t_opportunityphase } from "../cds-generated/enums/opportunity_z2t_opportunityphase"
 import { z2t_type } from "../cds-generated/enums/z2t_type"
 
 export type SalesFulfillmentStatus = {
@@ -13,6 +12,8 @@ export type SalesFulfillmentStatus = {
   isDateConfirmed: boolean,
   salesResponsible?: string,
   requirements: {
+    //Machine Delivered to Customer
+    MDC: boolean,
     //Sales Agreement
     SA: boolean,
     //Data Goverance

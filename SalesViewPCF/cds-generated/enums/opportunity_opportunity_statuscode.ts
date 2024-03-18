@@ -17,6 +17,7 @@ export const enum opportunity_opportunity_statuscode {
   DealerPreference = 594100054,
   NoDeal = 594100067,
   ColumnFodder = 594100044,
+  Credit = 594100047,
   Financing = 594100048,
   InventoryAvailability = 594100043,
   BrandPreference = 594100042,
@@ -30,4 +31,4 @@ export const enum opportunity_opportunity_statuscode {
   Configuration = 594100063,
   ValueAddOptions = 594100064,
 }
-  
+

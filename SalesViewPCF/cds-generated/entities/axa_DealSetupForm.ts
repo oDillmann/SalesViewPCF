@@ -46,7 +46,7 @@ export const axa_dealsetupformMetadata = {
     axa_Opportunity: ["mscrm.opportunity"],
     axa_Model: ["mscrm.z2t_model"],
     axa_Make: ["mscrm.z2t_make"],
-    axa_EquipmentNumberEQN: ["mscrm.z2t_equipment"],
+    axa_EquipmentID: ["mscrm.z2t_equipment"],
     axa_CustomerProspect_contact: ["mscrm.contact"],
     axa_CustomerProspect_account: ["mscrm.account"],
     axa_CUSTOMERDELIVERYCONTACTNAME: ["mscrm.contact"],
@@ -95,12 +95,13 @@ export enum axa_DealSetupFormAttributes {
   axa_DealSetupFormId = "axa_dealsetupformid",
   axa_DeliveryContactEmail = "axa_deliverycontactemail",
   axa_DeliveryContactPhone = "axa_deliverycontactphone",
+  axa_DeliveryInstructions = "axa_deliveryinstructions",
   axa_DeliveryServiceRecord = "axa_deliveryservicerecord",
   axa_DeliveryServiceRecord_Name = "axa_deliveryservicerecord_name",
   axa_DeliveryServiceRecordLink = "axa_deliveryservicerecordlink",
   axa_DSFstatus = "axa_dsfstatus",
-  axa_EquipmentNumberEQN = "axa_equipmentnumbereqn",
-  axa_EquipmentNumberEQNName = "axa_equipmentnumbereqnname",
+  axa_EquipmentID = "axa_equipmentid",
+  axa_EquipmentIDName = "axa_equipmentidname",
   axa_EstimatedDeliveryDatetoCustomer = "axa_estimateddeliverydatetocustomer",
   axa_EstimatedMachineArrival = "axa_estimatedmachinearrival",
   axa_ExtendedWarrantyIncludedfreetext = "axa_extendedwarrantyincludedfreetext",
@@ -154,6 +155,7 @@ export enum axa_DealSetupFormAttributes {
   axa_Salesagreementattachment2 = "axa_salesagreementattachment2",
   axa_Salesagreementattachment2_Name = "axa_salesagreementattachment2_name",
   axa_SalesAgreementLink = "axa_salesagreementlink",
+  axa_SalesEquipmentCoordinatornotes = "axa_salesequipmentcoordinatornotes",
   axa_Salesperson = "axa_salesperson",
   axa_Salesperson1 = "axa_salesperson1",
   axa_Salesperson1Name = "axa_salesperson1name",
@@ -165,6 +167,7 @@ export enum axa_DealSetupFormAttributes {
   axa_ServiceCallName = "axa_servicecallname",
   axa_ServiceManual = "axa_servicemanual",
   axa_ShiptoAddress = "axa_shiptoaddress",
+  axa_SignedAgreementatDelivery = "axa_signedagreementatdelivery",
   axa_SN = "axa_sn",
   axa_SoldToCustomerName = "axa_soldtocustomername",
   axa_Space = "axa_space",
@@ -175,6 +178,7 @@ export enum axa_DealSetupFormAttributes {
   axa_TradeinIncluded = "axa_tradeinincluded",
   axa_TradeinModel = "axa_tradeinmodel",
   axa_TradeinModelName = "axa_tradeinmodelname",
+  axa_TradeInNotes = "axa_tradeinnotes",
   axa_Tradeinrequest = "axa_tradeinrequest",
   axa_TradeinrequestName = "axa_tradeinrequestname",
   axa_TradeinSerial = "axa_tradeinserial",
@@ -289,6 +293,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_deliverycontactemail?: string | null;
   // Delivery Contact Phone # StringType
   axa_deliverycontactphone?: string | null;
+  // Delivery Instructions StringType
+  axa_deliveryinstructions?: string | null;
   // Delivery Service Record File
   axa_deliveryservicerecord?: File | null;
   //  StringType
@@ -297,10 +303,10 @@ export interface axa_DealSetupForm extends IEntity {
   axa_deliveryservicerecordlink?: string | null;
   // MSF status axa_dealsetupform_axa_dealsetupform_axa_dsfstatus
   axa_dsfstatus?: import("../enums/axa_dealsetupform_axa_dealsetupform_axa_dsfstatus").axa_dealsetupform_axa_dealsetupform_axa_dsfstatus | null;
-  // Equipment Number (EQN#) LookupType
-  axa_equipmentnumbereqn?: import("cdsify").EntityReference | null;
+  // Equipment ID# LookupType
+  axa_equipmentid?: import("cdsify").EntityReference | null;
   //  StringType
-  axa_equipmentnumbereqnname?: string | null;
+  axa_equipmentidname?: string | null;
   // Estimated Arrival Date [Required] DateTimeType DateOnly:UserLocal
   axa_estimateddeliverydatetocustomer?: Date;
   // Estimated Delivery to Customer [Required] DateTimeType DateOnly:UserLocal
@@ -407,6 +413,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_salesagreementattachment2_name?: string | null;
   // Sales Agreement Link StringType
   axa_salesagreementlink?: string | null;
+  // Sales/Equipment Coordinator Notes StringType
+  axa_salesequipmentcoordinatornotes?: string | null;
   // Salesperson LookupType
   axa_salesperson?: import("cdsify").EntityReference | null;
   // Salesperson # LookupType
@@ -429,6 +437,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_servicemanual?: boolean | null;
   // Ship to Address StringType
   axa_shiptoaddress?: string | null;
+  // Signed Agreement at Delivery BooleanType
+  axa_signedagreementatdelivery?: boolean | null;
   // S/N StringType
   axa_sn?: string | null;
   // Sold To (Customer Name) StringType
@@ -449,6 +459,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_tradeinmodel?: import("cdsify").EntityReference | null;
   //  StringType
   axa_tradeinmodelname?: string | null;
+  // Trade-In Notes StringType
+  axa_tradeinnotes?: string | null;
   // Trade-in request LookupType
   axa_tradeinrequest?: import("cdsify").EntityReference | null;
   //  StringType

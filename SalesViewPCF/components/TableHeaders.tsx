@@ -23,6 +23,7 @@ const TableHeaders = ({ Departments }: props) => {
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
+        <col style={{ width: "auto" }} />
       </colgroup>
       <thead>
         <tr className="tableHeader" style={{ display: 'table-row', }}>
@@ -57,6 +58,11 @@ const TableHeaders = ({ Departments }: props) => {
           <th style={{ height: 0, whiteSpace: 'nowrap', backgroundColor: 'white' }}>
             <Stack horizontalAlign="center" styles={{ root: { marginInline: '10px', height: '100%' } }}>
               <div style={{ width: '1px', height: '100%', backgroundColor: '#aaa' }}> </div>
+            </Stack>
+          </th>
+          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+            <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
+              <Text styles={{ root: { fontWeight: '600' } }}>Machine Delivered to Customer</Text>
             </Stack>
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>

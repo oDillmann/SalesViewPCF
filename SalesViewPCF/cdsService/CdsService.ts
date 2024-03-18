@@ -38,6 +38,7 @@ export default class CdsService {
       `  <entity name='${axa_salesfulfillmentstatusMetadata.logicalName}'>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Description}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
@@ -104,6 +105,7 @@ export default class CdsService {
           isDateConfirmed: !!confirmedDate,
           warehouse: item[axa_SalesFulfillmentStatusAttributes.axa_Warehouse],
           requirements: {
+            MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
             DG: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}`] ? true : false,
             DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
