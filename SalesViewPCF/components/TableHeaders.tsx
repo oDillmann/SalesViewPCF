@@ -62,12 +62,12 @@ const TableHeaders = ({ Departments }: props) => {
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>
             <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
-              <Text styles={{ root: { fontWeight: '600' } }}>Machine Delivered to Customer</Text>
+              <Text styles={{ root: { fontWeight: '600' } }}>Sales Agreement</Text>
             </Stack>
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>
             <Stack verticalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', backgroundColor: '#eee', } }}>
-              <Text styles={{ root: { fontWeight: '600' } }}>Sales Agreement</Text>
+              <Text styles={{ root: { fontWeight: '600' } }}>Machine Delivered to Customer</Text>
             </Stack>
           </th>
           <th style={{ height: 0, whiteSpace: 'nowrap' }}>
