@@ -41,13 +41,13 @@ const TableView = () => {
 
   return (
     <Stack horizontal styles={{ root: { padding: '0 0 0 1rem', height: '100%', width: '100%', overflowY: 'scroll' } }}>
-      <table style={{ display: 'block' }}>
+      <table style={{ display: 'block', overflowY: 'scroll' }}>
         <TableHeaders Departments={vm.Departments} />
         <tbody>
           {groupByComponent}
         </tbody>
       </table>
-    </Stack>
+    </Stack >
   )
 }
 

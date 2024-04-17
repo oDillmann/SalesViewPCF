@@ -1,4 +1,4 @@
-import { Dropdown, Stack, Text } from '@fluentui/react';
+import { Dropdown, Stack, Sticky, Text } from '@fluentui/react';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { useVM } from '../viewModel/context';
@@ -25,9 +25,9 @@ const TableHeaders = ({ Departments }: props) => {
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
       </colgroup>
-      <thead>
-        <tr className="tableHeader" style={{ display: 'table-row', }}>
-          <th style={{ height: 0, whiteSpace: 'nowrap' }}>
+      <thead style={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: "#fff" }}>
+        <tr className="tableHeader" style={{ display: 'table-row' }}>
+          <th style={{ height: 0, whiteSpace: 'nowrap', position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
             <Stack
               verticalAlign="center"
               horizontal

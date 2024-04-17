@@ -21,7 +21,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
 
   if (SFS.length === 0) return (
     <tr style={{ display: 'table-row', userSelect: 'none' }}>
-      <td colSpan={Departments.length + 1} >
+      <td colSpan={Departments.length + 1} style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
         <Stack
           horizontal
           tokens={{ childrenGap: 10 }}
@@ -44,7 +44,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
   return (
     <>
       <tr style={{ display: 'table-row', userSelect: 'none' }} onClick={() => expanded ? collapse() : expand()}>
-        <td colSpan={Departments.length + 1} >
+        <td colSpan={Departments.length + 1} style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
           <Stack
             horizontal
             tokens={{ childrenGap: 10 }}
@@ -73,7 +73,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
       </tr>
       {SFS.map((sf) => (
         <tr className="tableRow" key={sf.id} style={{ display: expanded ? 'table-row' : 'none' }}>
-          <td>
+          <td style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
             <Stack
               verticalAlign="center"
               tokens={{ childrenGap: '0.2rem' }}
