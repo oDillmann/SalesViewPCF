@@ -79,6 +79,7 @@ export enum axa_DealSetupFormAttributes {
   axa_CUSTOMERDELIVERYCONTACTNAME = "axa_customerdeliverycontactname",
   axa_CUSTOMERDELIVERYCONTACTNAMEName = "axa_customerdeliverycontactnamename",
   axa_CUSTOMERDELIVERYCONTACTNAMEYomiName = "axa_customerdeliverycontactnameyominame",
+  axa_CustomerNumber = "axa_customernumber",
   axa_CustomerProspect = "axa_customerprospect",
   axa_CustomerProspectIdType = "axa_customerprospectidtype",
   axa_CustomerProspectName = "axa_customerprospectname",
@@ -261,6 +262,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_customerdeliverycontactnamename?: string | null;
   //  StringType
   axa_customerdeliverycontactnameyominame?: string | null;
+  // Customer Number StringType
+  axa_customernumber?: string | null;
   // Sold To (Customer#) [Required] CustomerType
   axa_customerprospect?: import("cdsify").EntityReference;
   //  EntityNameType

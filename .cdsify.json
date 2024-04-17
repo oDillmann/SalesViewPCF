@@ -4,6 +4,9 @@
     "axa_department",
     "axa_salesfulfillmentstatus",
     "opportunity",
+    "account",
+    "axa_catcustomeridtranslate",
+    "axa_dataauthorizationgovernanceindicatorflag",
     "axa_dealsetupform"
   ],
   "actions": [],
