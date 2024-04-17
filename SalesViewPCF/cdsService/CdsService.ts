@@ -1,5 +1,3 @@
-import { axa_CATCustomerIDTranslateAttributes, axa_catcustomeridtranslateMetadata } from "../cds-generated/entities/axa_CATCustomerIDTranslate";
-import { axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes, axa_dataauthorizationgovernanceindicatorflagMetadata } from "../cds-generated/entities/axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlag";
 import { axa_DealSetupFormAttributes, axa_dealsetupformMetadata } from "../cds-generated/entities/axa_DealSetupForm";
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
@@ -17,7 +15,6 @@ export default class CdsService {
   dsfAlias = "DSF";
   departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
   salesResponsible = "salesresponsible";
-  dataAuthAlias = "dataauth";
 
   constructor(context: ComponentFramework.Context<IInputs>) {
     this.Context = context;
@@ -54,12 +51,6 @@ export default class CdsService {
       `    <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}'/>`,
       `    <attribute name='${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}'/>`,
       `    <attribute name='${axa_DealSetupFormAttributes.axa_CWSID}'/>`,
-      `      <link-entity name='${axa_catcustomeridtranslateMetadata.logicalName}' from='${axa_CATCustomerIDTranslateAttributes.axa_CCID}' to='${axa_DealSetupFormAttributes.axa_CustomerNumber}' link-type='outer'>`,
-      `        <link-entity name='${axa_dataauthorizationgovernanceindicatorflagMetadata.logicalName}' from='${axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes.axa_CCID}' to='${axa_CATCustomerIDTranslateAttributes.axa_CCID}' link-type='outer' alias='${this.dataAuthAlias}'>`,
-      `          <attribute name='${axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes.axa_CWSID}'/>`,
-      `          <attribute name='${axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes.axa_DATA_AUTH}'/>`,
-      "        </link-entity>",
-      "      </link-entity>",
       `      <link-entity name='${opportunityMetadata.logicalName}' from='${OpportunityAttributes.OpportunityId}' to='${axa_DealSetupFormAttributes.axa_Opportunity}' link-type='outer' alias='${this.opportunityAlias}'>`,
       `        <attribute name='${OpportunityAttributes.z2t_OpType}'/>`,
       "      </link-entity>",
@@ -116,11 +107,9 @@ export default class CdsService {
           requirements: {
             MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
-            DG: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}`] ? true :
-              item[`${this.dataAuthAlias}.${axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes.axa_DATA_AUTH}`] ? true : false,
+            DG: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}`] ? true : false,
             DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
-            CWS: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_CWSID}`] ? true :
-              item[`${this.dataAuthAlias}.${axa_DATAAUTHORIZATIONGOVERNANCEIndicatorFlagAttributes.axa_CWSID}`] ? true : false,
+            CWS: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_CWSID}`] ? true : false,
           },
           department: {}
         }
