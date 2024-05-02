@@ -18,6 +18,7 @@ export const axa_dealsetupformMetadata = {
     axa_dsfstatus: "Optionset",
     axa_paymentmethod: "Optionset",
     axa_pickupdelivery: "Optionset",
+    axa_typeofsales1: "Optionset",
     statecode: "Optionset",
     statuscode: "Optionset",
     // Date Formats
@@ -90,6 +91,7 @@ export enum axa_DealSetupFormAttributes {
   axa_CVAlink = "axa_cvalink",
   axa_CWSID = "axa_cwsid",
   axa_CWSIDAvailable = "axa_cwsidavailable",
+  axa_DataGovernanceAttached = "axa_datagovernanceattached",
   axa_DataGovernanceLink = "axa_datagovernancelink",
   axa_DealerInstalledItems = "axa_dealerinstalleditems",
   axa_DealID = "axa_dealid",
@@ -110,6 +112,7 @@ export enum axa_DealSetupFormAttributes {
   axa_ExternalVendorQuotes_Name = "axa_externalvendorquotes_name",
   axa_ExternalVendorQuoteslink = "axa_externalvendorquoteslink",
   axa_FastTrack = "axa_fasttrack",
+  axa_IncludeGiftboxItemMSCCATGIFTBOX = "axa_includegiftboxitemmsccatgiftbox",
   axa_Includesattachment = "axa_includesattachment",
   axa_InStock = "axa_instock",
   axa_IsaValueInsuranceIncluded = "axa_isavalueinsuranceincluded",
@@ -184,6 +187,7 @@ export enum axa_DealSetupFormAttributes {
   axa_TradeinrequestName = "axa_tradeinrequestname",
   axa_TradeinSerial = "axa_tradeinserial",
   axa_TypeofSale = "axa_typeofsale",
+  axa_TypeofSales1 = "axa_typeofsales1",
   axa_Zipcode = "axa_zipcode",
   CreatedBy = "createdby",
   CreatedByName = "createdbyname",
@@ -284,6 +288,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_cwsid?: string | null;
   // CWS ID Available BooleanType
   axa_cwsidavailable?: boolean | null;
+  // Data Governance Attached BooleanType
+  axa_datagovernanceattached?: boolean | null;
   // Data Governance Link StringType
   axa_datagovernancelink?: string | null;
   // Dealer Installed Items StringType
@@ -324,6 +330,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_externalvendorquoteslink?: string | null;
   // Fast Track BooleanType
   axa_fasttrack?: boolean | null;
+  // Include Giftbox Item (MSCCATGIFTBOX) BooleanType
+  axa_includegiftboxitemmsccatgiftbox?: boolean | null;
   // Includes attachment BooleanType
   axa_includesattachment?: boolean | null;
   // In Stock BooleanType
@@ -472,6 +480,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_tradeinserial?: string | null;
   // Type of Sale StringType
   axa_typeofsale?: string | null;
+  // Type of Sales axa_dealsetupform_axa_dealsetupform_axa_typeofsales1
+  axa_typeofsales1?: import("../enums/axa_dealsetupform_axa_dealsetupform_axa_typeofsales1").axa_dealsetupform_axa_dealsetupform_axa_typeofsales1 | null;
   // Zipcode StringType
   axa_zipcode?: string | null;
   // Created By LookupType Unique identifier of the user who created the record.

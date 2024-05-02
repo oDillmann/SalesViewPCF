@@ -21,7 +21,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
 
   if (SFS.length === 0) return (
     <tr style={{ display: 'table-row', userSelect: 'none' }}>
-      <td colSpan={Departments.length + 1} style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
+      <td colSpan={1} style={{ position: "sticky", left: 0 }}>
         <Stack
           horizontal
           tokens={{ childrenGap: 10 }}
@@ -44,7 +44,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
   return (
     <>
       <tr style={{ display: 'table-row', userSelect: 'none' }} onClick={() => expanded ? collapse() : expand()}>
-        <td colSpan={Departments.length + 1} style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
+        <td colSpan={1} style={{ position: "sticky", left: 0 }}>
           <Stack
             horizontal
             tokens={{ childrenGap: 10 }}
@@ -73,7 +73,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
       </tr>
       {SFS.map((sf) => (
         <tr className="tableRow" key={sf.id} style={{ display: expanded ? 'table-row' : 'none' }}>
-          <td style={{ position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
+          <td style={{ position: "sticky", left: 0, backgroundColor: '#fff' }}>
             <Stack
               verticalAlign="center"
               tokens={{ childrenGap: '0.2rem' }}
@@ -103,7 +103,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
               <Stack tokens={{ childrenGap: "0.2rem" }} >
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.salesResponsible ?? "No Sales Rep"}</Text>
-                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.phase ?? "No Phase"}</Text>
+                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.typeOfSale ?? "No Sales Type"}</Text>
                 </Stack>
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.model ?? "No Model"}</Text>

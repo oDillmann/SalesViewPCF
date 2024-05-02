@@ -5,6 +5,7 @@ export type SalesFulfillmentStatus = {
   id: string,
   title?: string, // customer name
   phase?: string
+  typeOfSale?: string
   warehouse?: string,
   model?: string,
   OpType?: z2t_type,

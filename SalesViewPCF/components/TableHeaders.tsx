@@ -25,14 +25,14 @@ const TableHeaders = ({ Departments }: props) => {
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
       </colgroup>
-      <thead style={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: "#fff" }}>
+      <thead style={{ position: "sticky", top: 0, backgroundColor: "#fff" }}>
         <tr className="tableHeader" style={{ display: 'table-row' }}>
-          <th style={{ height: 0, whiteSpace: 'nowrap', position: "sticky", left: 0, backgroundColor: '#fff', zIndex: 2 }}>
+          <th style={{ height: 0, whiteSpace: 'nowrap', position: "sticky", left: 0, top: 0, backgroundColor: '#fff' }}>
             <Stack
               verticalAlign="center"
               horizontal
               tokens={{ childrenGap: '0.5rem' }}
-              styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', width: '250px' } }}
+              styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', height: '100%', width: '250px', zIndex: 1, position: "relative" } }}
             >
               <Text styles={{ root: { fontWeight: '600' } }}>Group By</Text>
               <Dropdown

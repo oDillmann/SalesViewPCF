@@ -108,7 +108,8 @@ export default class SalesViewVM {
   }
 
   get groupedByType() {
-    // some copy paste magic for the .replace(/([a-z])([A-Z])/g, '$1 $2'); partwouldn't hurt anyone right? 
+    // some copy paste magic for the .replace(/([a-z])([A-Z])/g, '$1 $2') part, wouldn't hurt anyone right? RIGHT?
+    // 'fast forward a few months' - me, 2024, i have no idea what this does, it ... replaces ?? 
     const grouped = this.groupBy(this.SFS, sfs => { return sfs.OpType ? z2t_type[sfs.OpType].replace(/([a-z])([A-Z])/g, '$1 $2') : undefined }, "No Type");
     return this.sortByKeys(grouped, (a, b) => a === 'No Type' ? 1 : b === 'No Type' ? -1 : a.localeCompare(b));
   }
@@ -138,7 +139,8 @@ export default class SalesViewVM {
    */
   get thisWeek() {
     const today = new Date();
-    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date >= today && date <= this.addDays(today, 7));
+    const weekEnd = this.addDays(today, 7);
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date >= today && date <= weekEnd);
   }
 
   /**
@@ -152,11 +154,21 @@ export default class SalesViewVM {
   }
 
   /**
-   * @description gets the SFS that have their esd beyond the upcoming week
+   * @description gets the SFS that have their esd beyond 2 weeks
    * @returns SalesFulfillmentStatus[]
    */
   get beyond() {
-    const twoWeeks = this.addDays(new Date(), 7);
+    const twoWeeks = this.addDays(new Date(), 14);
+    return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > twoWeeks);
+  }
+
+
+  /**
+   * @description gets the SFS that have their esd beyond upcoming week
+   * @returns SalesFulfillmentStatus[]
+   */
+  get upcoming() {
+    const twoWeeks = this.addDays(new Date(), 14);
     return this.dateFilter(this.SFS, sfs => sfs.DeliveryDate ? new Date(sfs.DeliveryDate) : null, date => date > twoWeeks);
   }
 
@@ -169,7 +181,7 @@ export default class SalesViewVM {
   }
 
   get groupedByMonth() {
-    const grouped = this.groupBy(this.beyond,
+    const grouped = this.groupBy(this.upcoming,
       sfs => `${sfs.DeliveryDate?.toLocaleString('default', { month: 'long' })}, ${sfs.DeliveryDate?.getFullYear()}`,
       "No Date"
     );
@@ -202,6 +214,7 @@ export default class SalesViewVM {
   private formatViewRecord(record: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord, recordId: string): SalesFulfillmentStatus {
     const id = recordId;
     const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase);
+    const typeOfSale = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_TypeofSale);
     const warehouse = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Warehouse);
     const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel);
     let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
@@ -218,6 +231,7 @@ export default class SalesViewVM {
       id,
       title,
       phase,
+      typeOfSale,
       OpType: z2t_type.Sales,
       DeliveryDate: confirmedDate ?? estimatedDate,
       isDateConfirmed: !!confirmedDate,
@@ -231,7 +245,7 @@ export default class SalesViewVM {
 
   /** 
    * This function merges the control SFS with the view SFS
-   * because the View SFS dont have departments, i need to get the departments myself as well as the OpType
+   * because the View SFS doesn't have departments, i need to get the departments myself as well as the OpType
    * so i do that and then merge them
    */
   private mergeSFS() {
@@ -240,6 +254,7 @@ export default class SalesViewVM {
       if (!controlSFS) return viewSFS;
       return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType, requirements: controlSFS.requirements }
     }).sort((a, b) => {
+      // sort by date 
       if (a.DeliveryDate && b.DeliveryDate) { return a.DeliveryDate.getTime() - b.DeliveryDate.getTime(); }
       return 0;
     })

@@ -19,6 +19,7 @@ export const axa_salesfulfillmentstatusMetadata = {
     axa_doescustomerhavedatagovernanceform: "Optionset",
     axa_locationbranch: "Optionset",
     axa_salesstatus: "Optionset",
+    axa_typeofsale1: "Optionset",
     statecode: "Optionset",
     statuscode: "Optionset",
     // Date Formats
@@ -101,6 +102,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_Statustxt = "axa_statustxt",
   axa_Tradeinincluded = "axa_tradeinincluded",
   axa_TypeofSale = "axa_typeofsale",
+  axa_TypeofSale1 = "axa_typeofsale1",
   axa_Warehouse = "axa_warehouse",
   CreatedBy = "createdby",
   CreatedByName = "createdbyname",
@@ -225,6 +227,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_tradeinincluded?: boolean | null;
   // Type of Sale StringType
   axa_typeofsale?: string | null;
+  // Type of Sale axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_typeofsale1
+  axa_typeofsale1?: import("../enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_typeofsale1").axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_typeofsale1 | null;
   // Warehouse StringType
   axa_warehouse?: string | null;
   // Created By LookupType Unique identifier of the user who created the record.

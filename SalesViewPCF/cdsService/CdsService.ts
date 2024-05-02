@@ -3,7 +3,9 @@ import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generat
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
 import { OpportunityAttributes, opportunityMetadata } from "../cds-generated/entities/Opportunity";
+import { axa_cwsstatus } from "../cds-generated/enums/axa_cwsstatus";
 import { axa_department_axa_department_statecode } from "../cds-generated/enums/axa_department_axa_department_statecode";
+import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 
@@ -41,6 +43,9 @@ export default class CdsService {
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_TypeofSale}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Warehouse}'/>`,
       `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsible}'>`,
@@ -94,12 +99,15 @@ export default class CdsService {
       const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
       const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
+      const CWSID = item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS] === axa_cwsstatus.Yes;
+      const DataAuth = item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform] === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes;
       if (!SFS[id]) {
         SFS[id] = {
           id,
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
           salesResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
+          typeOfSale: item[axa_SalesFulfillmentStatusAttributes.axa_TypeofSale],
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           OpType: item[`${this.opportunityAlias}.${OpportunityAttributes.z2t_OpType}`],
           isDateConfirmed: !!confirmedDate,
@@ -107,9 +115,9 @@ export default class CdsService {
           requirements: {
             MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
-            DG: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}`] ? true : false,
+            DG: DataAuth,
             DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
-            CWS: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_CWSID}`] ? true : false,
+            CWS: CWSID,
           },
           department: {}
         }

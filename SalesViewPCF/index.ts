@@ -33,7 +33,7 @@ export class SalesViewPCF
     _state: ComponentFramework.Dictionary,
     container: HTMLDivElement
   ): void {
-    console.info("Version 0.0.23");
+    console.info("Version 0.0.25");
     this.context = context;
     this.container = container;
     this.serviceProvider = new ServiceProvider();
@@ -68,7 +68,7 @@ export class SalesViewPCF
     const vm = this.serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName)
     if (_context.parameters.sampleDataSet.loading) {
       vm.isViewLoading = true;
-      this.serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName).init();
+      vm.init();
     } else {
       vm.isViewLoading = false;
       vm.formatViewRecords(_context.parameters.sampleDataSet.records)
