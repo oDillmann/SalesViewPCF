@@ -1,3 +1,4 @@
+import { axa_cwsstatus } from "../cds-generated/enums/axa_cwsstatus"
 import { axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus } from "../cds-generated/enums/axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus"
 import { z2t_type } from "../cds-generated/enums/z2t_type"
 
@@ -17,11 +18,11 @@ export type SalesFulfillmentStatus = {
     MDC: boolean,
     //Sales Agreement
     SA: boolean,
-    //Data Goverance
-    DG: boolean,
+    //Data Auth
+    DA: axa_cwsstatus,
     //Delivery Service Record
     DSR: boolean,
-    CWS: boolean,
+    CWS: axa_cwsstatus,
   }
   department: { [department: string]: axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus }
 }

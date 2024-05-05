@@ -99,8 +99,6 @@ export default class CdsService {
       const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
       const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
-      const CWSID = item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS] === axa_cwsstatus.Yes;
-      const DataAuth = item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform] === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes;
       if (!SFS[id]) {
         SFS[id] = {
           id,
@@ -115,9 +113,9 @@ export default class CdsService {
           requirements: {
             MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
-            DG: DataAuth,
+            DA: item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform],
             DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
-            CWS: CWSID,
+            CWS: item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS],
           },
           department: {}
         }

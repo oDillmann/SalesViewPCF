@@ -1,5 +1,6 @@
 import { Stack, Text } from '@fluentui/react';
 import React from 'react';
+import { axa_cwsstatus } from '../cds-generated/enums/axa_cwsstatus';
 import { axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus } from '../cds-generated/enums/axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus';
 import { SalesFulfillmentStatus } from '../types/SalesFulfillmentStatus';
 
@@ -36,7 +37,7 @@ const BodyRows = ({ Departments, sf }: props) => {
       </td>
       <td style={{ height: 0, whiteSpace: 'nowrap' }} >
         <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DG ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DA === axa_cwsstatus.Yes ? "#00c000" : sf.requirements.DA === axa_cwsstatus.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
         </Stack>
       </td>
       <td style={{ height: 0, whiteSpace: 'nowrap' }} >
@@ -46,7 +47,7 @@ const BodyRows = ({ Departments, sf }: props) => {
       </td>
       <td style={{ height: 0, whiteSpace: 'nowrap' }} >
         <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.CWS ? "#00c000" : "orange", height: '25px', width: '25px', }} />
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.CWS === axa_cwsstatus.Yes ? "#00c000" : sf.requirements.CWS === axa_cwsstatus.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
         </Stack>
       </td>
     </>

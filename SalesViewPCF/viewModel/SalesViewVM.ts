@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { axa_SalesFulfillmentStatusAttributes } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
+import { axa_cwsstatus } from "../cds-generated/enums/axa_cwsstatus";
 import { z2t_type } from "../cds-generated/enums/z2t_type";
 import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
@@ -238,7 +239,7 @@ export default class SalesViewVM {
       salesResponsible: salesResponsible,
       model,
       warehouse,
-      requirements: { MDC: false, SA: false, DG: false, DSR: false, CWS: false },
+      requirements: { MDC: false, SA: false, DA: axa_cwsstatus.No, DSR: false, CWS: axa_cwsstatus.No },
       department: {},
     }
   }
