@@ -3,9 +3,7 @@ import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generat
 import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
 import { OpportunityAttributes, opportunityMetadata } from "../cds-generated/entities/Opportunity";
-import { axa_cwsstatus } from "../cds-generated/enums/axa_cwsstatus";
 import { axa_department_axa_department_statecode } from "../cds-generated/enums/axa_department_axa_department_statecode";
-import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform";
 import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 

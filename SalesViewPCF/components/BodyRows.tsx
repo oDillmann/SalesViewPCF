@@ -2,6 +2,7 @@ import { Stack, Text } from '@fluentui/react';
 import React from 'react';
 import { axa_cwsstatus } from '../cds-generated/enums/axa_cwsstatus';
 import { axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus } from '../cds-generated/enums/axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus';
+import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform } from '../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform';
 import { SalesFulfillmentStatus } from '../types/SalesFulfillmentStatus';
 
 interface props { Departments: string[], sf: SalesFulfillmentStatus }
@@ -37,7 +38,7 @@ const BodyRows = ({ Departments, sf }: props) => {
       </td>
       <td style={{ height: 0, whiteSpace: 'nowrap' }} >
         <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DA === axa_cwsstatus.Yes ? "#00c000" : sf.requirements.DA === axa_cwsstatus.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
+          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes ? "#00c000" : sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
         </Stack>
       </td>
       <td style={{ height: 0, whiteSpace: 'nowrap' }} >
