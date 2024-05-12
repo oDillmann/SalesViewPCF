@@ -6,6 +6,7 @@ import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
 import ServiceProvider from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
+import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform";
 
 export enum ViewType { 'Date', 'Sales Responsible', 'Warehouse', 'Type of Sale' }
 
@@ -239,7 +240,7 @@ export default class SalesViewVM {
       salesResponsible: salesResponsible,
       model,
       warehouse,
-      requirements: { MDC: false, SA: false, DA: axa_cwsstatus.No, DSR: false, CWS: axa_cwsstatus.No },
+      requirements: { MDC: false, SA: false, DA: axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No, DSR: false, CWS: axa_cwsstatus.No },
       department: {},
     }
   }
