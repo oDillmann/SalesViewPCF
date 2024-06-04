@@ -112,7 +112,7 @@ export default class SalesViewVM {
   get groupedByType() {
     // some copy paste magic for the .replace(/([a-z])([A-Z])/g, '$1 $2') part, wouldn't hurt anyone right? RIGHT?
     // 'fast forward a few months' - me, 2024, i have no idea what this does, it ... replaces ?? 
-    const grouped = this.groupBy(this.SFS, sfs => { return sfs.OpType ? z2t_type[sfs.OpType].replace(/([a-z])([A-Z])/g, '$1 $2') : undefined }, "No Type");
+    const grouped = this.groupBy(this.SFS, sfs => { return sfs.typeOfSale }, "No Type");
     return this.sortByKeys(grouped, (a, b) => a === 'No Type' ? 1 : b === 'No Type' ? -1 : a.localeCompare(b));
   }
 
