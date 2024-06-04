@@ -96,6 +96,7 @@ export default class CdsService {
     data.forEach((item) => {
       const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
       const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
+      const typeOfSale = item[axa_SalesFulfillmentStatusAttributes.axa_TypeofSale];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
       if (!SFS[id]) {
         SFS[id] = {
@@ -103,7 +104,7 @@ export default class CdsService {
           title: item[axa_SalesFulfillmentStatusAttributes.axa_Description],
           salesResponsible: item[`${this.salesResponsible}.fullname`],
           phase: item[axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase],
-          typeOfSale: item[axa_SalesFulfillmentStatusAttributes.axa_TypeofSale],
+          typeOfSale: typeOfSale,
           DeliveryDate: confirmedDate ? new Date(confirmedDate) : estimatedDate ? new Date(estimatedDate) : undefined,
           OpType: item[`${this.opportunityAlias}.${OpportunityAttributes.z2t_OpType}`],
           isDateConfirmed: !!confirmedDate,
@@ -112,7 +113,7 @@ export default class CdsService {
             MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
             DA: item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform],
-            DSR: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
+            DSR: typeOfSale === "Used Sales" ? true : item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
             CWS: item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS],
           },
           department: {}
