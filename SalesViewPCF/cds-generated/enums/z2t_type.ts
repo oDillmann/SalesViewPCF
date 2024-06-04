@@ -1,6 +1,6 @@
 /* eslint-disable*/
 // Enum z2t_type
-export const enum z2t_type {
+export enum z2t_type {
   Parts = 594100009,
   Rental = 594100010,
   Sales = 594100011,
@@ -8,4 +8,4 @@ export const enum z2t_type {
   UsedSales = 594100014,
   NA = 594100013,
 }
-  
+

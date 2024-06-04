@@ -283,8 +283,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_customerprospectname?: string | null;
   //  StringType
   axa_customerprospectyominame?: string | null;
-  // CVA FileType
-  axa_cva?: FileType | null;
+  // CVA File
+  axa_cva?: File | null;
   //  StringType
   axa_cva_name?: string | null;
   // CVA(freetext) StringType
@@ -311,8 +311,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_deliverycontactphone?: string | null;
   // Delivery Instructions StringType
   axa_deliveryinstructions?: string | null;
-  // Delivery Service Record FileType
-  axa_deliveryservicerecord?: FileType | null;
+  // Delivery Service Record File
+  axa_deliveryservicerecord?: File | null;
   //  StringType
   axa_deliveryservicerecord_name?: string | null;
   // Delivery Service Record Link StringType
@@ -329,8 +329,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_estimatedmachinearrival?: Date;
   // Extended Warranty Included(freetext) StringType
   axa_extendedwarrantyincludedfreetext?: string | null;
-  // External Vendor Quote(s) FileType
-  axa_externalvendorquotes?: FileType | null;
+  // External Vendor Quote(s) File
+  axa_externalvendorquotes?: File | null;
   //  StringType
   axa_externalvendorquotes_name?: string | null;
   // External Vendor Quote(s) link StringType
@@ -393,8 +393,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_opportunityname?: string | null;
   // Opportunity Number StringType
   axa_opportunitynumber?: string | null;
-  // Other Misc Document(s) FileType
-  axa_othermiscdocuments?: FileType | null;
+  // Other Misc Document(s) File
+  axa_othermiscdocuments?: File | null;
   //  StringType
   axa_othermiscdocuments_name?: string | null;
   // Other Misc Document(s) link StringType
@@ -421,12 +421,12 @@ export interface axa_DealSetupForm extends IEntity {
   axa_requestpssr?: boolean | null;
   // Request SiTech Install BooleanType
   axa_requestsitechinstall?: boolean | null;
-  // Sales agreement attachment 1 [Required] FileType
-  axa_salesagreementattachment?: FileType;
+  // Sales agreement attachment 1 [Required] File
+  axa_salesagreementattachment?: File;
   //  StringType
   axa_salesagreementattachment_name?: string | null;
-  //  Data Governance FileType
-  axa_salesagreementattachment2?: FileType | null;
+  //  Data Governance File
+  axa_salesagreementattachment2?: File | null;
   //  StringType
   axa_salesagreementattachment2_name?: string | null;
   // Sales Agreement Link StringType
