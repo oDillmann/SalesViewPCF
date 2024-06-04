@@ -22,6 +22,7 @@ export const axa_dealsetupformMetadata = {
     statecode: "Optionset",
     statuscode: "Optionset",
     // Date Formats
+    axa_approvaldate: "DateOnly:UserLocal",
     axa_estimateddeliverydatetocustomer: "DateOnly:UserLocal",
     axa_estimatedmachinearrival: "DateOnly:UserLocal",
     axa_pdiandinstallestimatedcompletiondate: "DateOnly:UserLocal",
@@ -64,6 +65,8 @@ export enum axa_DealSetupFormAttributes {
   axa_Address2 = "axa_address2",
   axa_AddressVerified = "axa_addressverified",
   axa_Addressverifiedoptions = "axa_addressverifiedoptions",
+  axa_ApprovalDate = "axa_approvaldate",
+  axa_Approved = "axa_approved",
   axa_AssignedTechnician = "axa_assignedtechnician",
   axa_AssignedTechnicianName = "axa_assignedtechnicianname",
   axa_AssignedTechnicianYomiName = "axa_assignedtechnicianyominame",
@@ -234,6 +237,10 @@ export interface axa_DealSetupForm extends IEntity {
   axa_addressverified?: boolean | null;
   // Address verified(options) [Required] axa_dealsetupform_axa_dealsetupform_axa_addressverifiedoptions
   axa_addressverifiedoptions?: import("../enums/axa_dealsetupform_axa_dealsetupform_axa_addressverifiedoptions").axa_dealsetupform_axa_dealsetupform_axa_addressverifiedoptions;
+  // Approval Date DateTimeType DateOnly:UserLocal
+  axa_approvaldate?: Date | null;
+  // Approved BooleanType
+  axa_approved?: boolean | null;
   // Assigned Technician LookupType
   axa_assignedtechnician?: import("cdsify").EntityReference | null;
   //  StringType
@@ -276,8 +283,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_customerprospectname?: string | null;
   //  StringType
   axa_customerprospectyominame?: string | null;
-  // CVA File
-  axa_cva?: File | null;
+  // CVA FileType
+  axa_cva?: FileType | null;
   //  StringType
   axa_cva_name?: string | null;
   // CVA(freetext) StringType
@@ -304,8 +311,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_deliverycontactphone?: string | null;
   // Delivery Instructions StringType
   axa_deliveryinstructions?: string | null;
-  // Delivery Service Record File
-  axa_deliveryservicerecord?: File | null;
+  // Delivery Service Record FileType
+  axa_deliveryservicerecord?: FileType | null;
   //  StringType
   axa_deliveryservicerecord_name?: string | null;
   // Delivery Service Record Link StringType
@@ -322,8 +329,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_estimatedmachinearrival?: Date;
   // Extended Warranty Included(freetext) StringType
   axa_extendedwarrantyincludedfreetext?: string | null;
-  // External Vendor Quote(s) File
-  axa_externalvendorquotes?: File | null;
+  // External Vendor Quote(s) FileType
+  axa_externalvendorquotes?: FileType | null;
   //  StringType
   axa_externalvendorquotes_name?: string | null;
   // External Vendor Quote(s) link StringType
@@ -386,8 +393,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_opportunityname?: string | null;
   // Opportunity Number StringType
   axa_opportunitynumber?: string | null;
-  // Other Misc Document(s) File
-  axa_othermiscdocuments?: File | null;
+  // Other Misc Document(s) FileType
+  axa_othermiscdocuments?: FileType | null;
   //  StringType
   axa_othermiscdocuments_name?: string | null;
   // Other Misc Document(s) link StringType
@@ -414,12 +421,12 @@ export interface axa_DealSetupForm extends IEntity {
   axa_requestpssr?: boolean | null;
   // Request SiTech Install BooleanType
   axa_requestsitechinstall?: boolean | null;
-  // Sales agreement attachment 1 [Required] File
-  axa_salesagreementattachment?: File;
+  // Sales agreement attachment 1 [Required] FileType
+  axa_salesagreementattachment?: FileType;
   //  StringType
   axa_salesagreementattachment_name?: string | null;
-  //  Data Governance File
-  axa_salesagreementattachment2?: File | null;
+  //  Data Governance FileType
+  axa_salesagreementattachment2?: FileType | null;
   //  StringType
   axa_salesagreementattachment2_name?: string | null;
   // Sales Agreement Link StringType
