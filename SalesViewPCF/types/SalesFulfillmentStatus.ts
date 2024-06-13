@@ -9,6 +9,7 @@ export type SalesFulfillmentStatus = {
   phase?: string
   typeOfSale?: string
   warehouse?: string,
+  serialNumber?: string,
   model?: string,
   OpType?: z2t_type,
   DeliveryDate?: Date,
