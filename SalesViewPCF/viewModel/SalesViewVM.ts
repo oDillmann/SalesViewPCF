@@ -254,7 +254,7 @@ export default class SalesViewVM {
     this.SFS = this.ViewSFS.map((viewSFS) => {
       const controlSFS = this.ControlSFS[viewSFS.id];
       if (!controlSFS) return viewSFS;
-      return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType, requirements: controlSFS.requirements }
+      return { ...viewSFS, department: controlSFS.department, OpType: controlSFS.OpType, requirements: controlSFS.requirements, serialNumber: controlSFS.serialNumber }
     }).sort((a, b) => {
       // sort by date 
       if (a.DeliveryDate && b.DeliveryDate) { return a.DeliveryDate.getTime() - b.DeliveryDate.getTime(); }
