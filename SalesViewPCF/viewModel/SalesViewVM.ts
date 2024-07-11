@@ -4,7 +4,7 @@ import { axa_cwsstatus } from "../cds-generated/enums/axa_cwsstatus";
 import { z2t_type } from "../cds-generated/enums/z2t_type";
 import CdsService from "../cdsService/CdsService";
 import { IInputs } from "../generated/ManifestTypes";
-import ServiceProvider from "../ServiceProvider";
+import serviceProvider, { ServiceProvider } from "../ServiceProvider";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 import { axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform } from "../cds-generated/enums/axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform";
 
@@ -29,7 +29,7 @@ export default class SalesViewVM {
   private viewType: ViewType = ViewType.Date; get ViewType() { return this.viewType; } set ViewType(value) { this.viewType = value; }
   saveHandlerAdded: any;
 
-  constructor(serviceProvider: ServiceProvider) {
+  constructor() {
     this.serviceProvider = serviceProvider;
     this.context = serviceProvider.get("context");
     this.notifyOutputChanged = serviceProvider.get("notifyOutputChanged");

@@ -23,6 +23,7 @@ export const axa_dealsetupformMetadata = {
     statuscode: "Optionset",
     // Date Formats
     axa_approvaldate: "DateOnly:UserLocal",
+    axa_completeddate: "DateOnly:UserLocal",
     axa_estimateddeliverydatetocustomer: "DateOnly:UserLocal",
     axa_estimatedmachinearrival: "DateOnly:UserLocal",
     axa_pdiandinstallestimatedcompletiondate: "DateOnly:UserLocal",
@@ -80,6 +81,7 @@ export enum axa_DealSetupFormAttributes {
   axa_CATNationalProgramfreetext = "axa_catnationalprogramfreetext",
   axa_CATNationalProgramIncluded = "axa_catnationalprogramincluded",
   axa_City = "axa_city",
+  axa_CompletedDate = "axa_completeddate",
   axa_CUSTOMERDELIVERYCONTACTNAME = "axa_customerdeliverycontactname",
   axa_CUSTOMERDELIVERYCONTACTNAMEName = "axa_customerdeliverycontactnamename",
   axa_CUSTOMERDELIVERYCONTACTNAMEYomiName = "axa_customerdeliverycontactnameyominame",
@@ -267,6 +269,8 @@ export interface axa_DealSetupForm extends IEntity {
   axa_catnationalprogramincluded?: boolean | null;
   // City StringType
   axa_city?: string | null;
+  // Completed Date DateTimeType DateOnly:UserLocal
+  axa_completeddate?: Date | null;
   // Customer Delivery Contact Name [Required] LookupType
   axa_customerdeliverycontactname?: import("cdsify").EntityReference;
   //  StringType

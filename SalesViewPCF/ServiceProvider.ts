@@ -1,4 +1,4 @@
-export default class ServiceProvider {
+export class ServiceProvider {
   private services = new Map();
   get<T = any>(serviceName: string): T {
     if (this.services.has(serviceName)) {
@@ -12,3 +12,5 @@ export default class ServiceProvider {
     this.services.set(serviceName, service);
   }
 }
+
+export default new ServiceProvider();

@@ -7,7 +7,9 @@
     "account",
     "axa_catcustomeridtranslate",
     "axa_dataauthorizationgovernanceindicatorflag",
-    "axa_dealsetupform"
+    "z2t_make",
+    "axa_dealsetupform",
+    "environmentvariabledefinition"
   ],
   "actions": [],
   "functions": [],

@@ -1,17 +1,13 @@
 import { MessageBar, MessageBarType, Spinner } from '@fluentui/react';
 import { observer } from 'mobx-react';
 import React, { useEffect } from 'react';
-import ServiceProvider from '../ServiceProvider';
+import serviceProvider from '../ServiceProvider';
 import ContextProvider from '../viewModel/context';
 import SalesViewVM from '../viewModel/SalesViewVM';
 import TableView from './TableView';
 import "./globals.css"
 
-export interface props {
-  serviceProvider: ServiceProvider;
-}
-
-const App = ({ serviceProvider }: props) => {
+const App = () => {
   const vm = serviceProvider.get<SalesViewVM>(SalesViewVM.serviceName);
   const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
 

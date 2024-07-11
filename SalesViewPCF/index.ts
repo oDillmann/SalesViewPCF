@@ -4,7 +4,7 @@ import App from "./components/App";
 import CdsService from "./cdsService/CdsService";
 import { createElement } from "react";
 import ReactDOM from "react-dom";
-import ServiceProvider from "./ServiceProvider";
+import serviceProvider, { ServiceProvider } from "./ServiceProvider";
 import SalesViewVM from "./viewModel/SalesViewVM";
 
 export class SalesViewPCF
@@ -33,10 +33,10 @@ export class SalesViewPCF
     _state: ComponentFramework.Dictionary,
     container: HTMLDivElement
   ): void {
-    console.info("Version 0.0.32");
+    console.info("Version 0.0.34");
     this.context = context;
     this.container = container;
-    this.serviceProvider = new ServiceProvider();
+    this.serviceProvider = serviceProvider
     this.serviceProvider.register<CdsService>(
       CdsService.serviceName,
       new CdsService(context)
@@ -50,7 +50,7 @@ export class SalesViewPCF
       notifyOutputChanged
     );
     this.context.parameters.sampleDataSet.paging.setPageSize(1000);
-    this.vm = new SalesViewVM(this.serviceProvider);
+    this.vm = new SalesViewVM();
     this.serviceProvider.register<SalesViewVM>(
       SalesViewVM.serviceName,
       this.vm
@@ -75,14 +75,10 @@ export class SalesViewPCF
     }
     //because updateView is called twice everytime the form is loaded, we need to make sure we only execute the init method once
     ReactDOM.render(
-      createElement(App, {
-        serviceProvider: this.serviceProvider,
-      }),
+      createElement(App, {}),
       this.container
     );
-    return createElement(App, {
-      serviceProvider: this.serviceProvider,
-    });
+    return createElement(App, {});
   }
 
   /**
