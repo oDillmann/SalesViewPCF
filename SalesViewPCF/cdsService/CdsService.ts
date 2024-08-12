@@ -127,8 +127,8 @@ export default class CdsService {
           requirements: {
             MDC: item[`${axa_SalesFulfillmentStatusAttributes.axa_MachineDeliveredtoCustomer}`] ? true : false,
             SA: item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}`] ? true : false,
-            DA: isMakeCaterpiller ? axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes : item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform],
-            DSR: isMakeCaterpiller ? true : typeOfSale === "Used Sales" ? true : item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
+            DA: !isMakeCaterpiller ? axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes : item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform],
+            DSR: !isMakeCaterpiller ? true : typeOfSale === "Used Sales" ? true : item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
             CWS: item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS],
           },
           department: {}

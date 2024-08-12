@@ -33,7 +33,7 @@ export class SalesViewPCF
     _state: ComponentFramework.Dictionary,
     container: HTMLDivElement
   ): void {
-    console.info("Version 0.0.34");
+    console.info("Version 0.0.35");
     this.context = context;
     this.container = container;
     this.serviceProvider = serviceProvider
