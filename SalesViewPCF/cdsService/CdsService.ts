@@ -109,7 +109,7 @@ export default class CdsService {
     data.forEach((item) => {
       const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
       const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
-      const isMakeCaterpiller = item[`${this.makeAlias}.${z2t_makeAttributes.z2t_name}`] === this.caterpillerMakeName;
+      const isMakeCaterpiller = item[`${this.makeAlias}.${z2t_makeAttributes.z2t_name}`]?.trim() === this.caterpillerMakeName?.trim();
       const typeOfSale = item[axa_SalesFulfillmentStatusAttributes.axa_TypeofSale];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
       if (!SFS[id]) {
