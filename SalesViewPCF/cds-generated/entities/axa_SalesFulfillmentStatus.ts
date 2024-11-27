@@ -57,6 +57,7 @@ export const axa_salesfulfillmentstatusMetadata = {
 
 // Attribute constants
 export enum axa_SalesFulfillmentStatusAttributes {
+  axa_Completionlog = "axa_completionlog",
   axa_ConfirmedDeliveryDate = "axa_confirmeddeliverydate",
   axa_CurrentMilestone = "axa_currentmilestone",
   axa_CurrentPhase = "axa_currentphase",
@@ -89,6 +90,7 @@ export enum axa_SalesFulfillmentStatusAttributes {
   axa_Mocel = "axa_mocel",
   axa_MocelName = "axa_mocelname",
   axa_Name = "axa_name",
+  axa_OverridingasystemruleforRequiredDocuments = "axa_overridingasystemruleforrequireddocuments",
   axa_ProjectedServiceStartDate = "axa_projectedservicestartdate",
   axa_ProjectedServiceStartDate1 = "axa_projectedservicestartdate1",
   axa_SalesFulfillmentStatusId = "axa_salesfulfillmentstatusid",
@@ -137,6 +139,8 @@ export enum axa_SalesFulfillmentStatusAttributes {
 
 // Early Bound Interface
 export interface axa_SalesFulfillmentStatus extends IEntity {
+  // Completion log MemoType
+  axa_completionlog?: string | null;
   // Confirmed Delivery Date DateTimeType DateOnly:UserLocal
   axa_confirmeddeliverydate?: Date | null;
   // Current Milestone axa_milestoneoptions
@@ -201,6 +205,8 @@ export interface axa_SalesFulfillmentStatus extends IEntity {
   axa_mocelname?: string | null;
   // ID StringType
   axa_name?: string | null;
+  // Overriding a system rule for Required Documents BooleanType
+  axa_overridingasystemruleforrequireddocuments?: boolean | null;
   // Projected Service Start Date DateTimeType DateOnly:UserLocal
   axa_projectedservicestartdate?: Date | null;
   // Projected Service Start Date1 DateTimeType DateOnly:UserLocal

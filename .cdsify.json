@@ -2,6 +2,7 @@
   "entities": [
     "axa_departmentfulfillmentstatus",
     "axa_department",
+    "task",
     "axa_salesfulfillmentstatus",
     "opportunity",
     "account",

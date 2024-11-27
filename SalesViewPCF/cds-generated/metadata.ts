@@ -8,6 +8,7 @@ import { axa_departmentMetadata } from "./entities/axa_Department";
 import { axa_salesfulfillmentstatusMetadata } from "./entities/axa_SalesFulfillmentStatus";
 import { environmentvariabledefinitionMetadata } from "./entities/EnvironmentVariableDefinition";
 import { opportunityMetadata } from "./entities/Opportunity";
+import { taskMetadata } from "./entities/Task";
 import { z2t_makeMetadata } from "./entities/z2t_make";
 
 export const Entities = {
@@ -20,6 +21,7 @@ export const Entities = {
   axa_SalesFulfillmentStatus: "axa_salesfulfillmentstatus",
   EnvironmentVariableDefinition: "environmentvariabledefinition",
   Opportunity: "opportunity",
+  Task: "task",
   z2t_make: "z2t_make",
 };
 
@@ -36,6 +38,7 @@ export const metadataCache = {
     axa_salesfulfillmentstatus: axa_salesfulfillmentstatusMetadata,
     environmentvariabledefinition: environmentvariabledefinitionMetadata,
     opportunity: opportunityMetadata,
+    task: taskMetadata,
     z2t_make: z2t_makeMetadata,
   },
   actions: {

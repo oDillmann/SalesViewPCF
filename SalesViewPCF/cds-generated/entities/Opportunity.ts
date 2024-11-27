@@ -48,6 +48,8 @@ export const opportunityMetadata = {
     versionnumber: "BigInt",
     z2t_daysopen: "Integer",
     // Optionsets
+    axa_financingoptions: "Optionset",
+    axa_warrantyoptions: "Optionset",
     budgetstatus: "Optionset",
     initialcommunication: "Optionset",
     msdyn_forecastcategory: "Optionset",
@@ -146,6 +148,7 @@ export const opportunityMetadata = {
     owningbusinessunit: ["mscrm.businessunit"],
     ownerid: ["mscrm.principal"],
     originatingleadid: ["mscrm.lead"],
+    nmc_lead_opportunityId: ["mscrm.lead"],
     nmc_ServiceCall1: ["mscrm.incident"],
     nmc_SalesOrder: ["mscrm.salesorder"],
     nmc_SICCode: ["mscrm.z2t_sic"],
@@ -172,6 +175,7 @@ export const opportunityMetadata = {
     createdonbehalfby: ["mscrm.systemuser"],
     createdby: ["mscrm.systemuser"],
     campaignid: ["mscrm.campaign"],
+    axa_Lead: ["mscrm.lead"],
     customerid: ["account","contact"],
     slainvokedid: ["sla"],
   },
@@ -186,7 +190,14 @@ export enum OpportunityAttributes {
   ActualValue = "actualvalue",
   ActualValue_Base = "actualvalue_base",
   axa_Competitor1MachineQuantity = "axa_competitor1machinequantity",
+  axa_Financing = "axa_financing",
+  axa_Financingoptions = "axa_financingoptions",
+  axa_Lead = "axa_lead",
+  axa_LeadName = "axa_leadname",
+  axa_LeadYomiName = "axa_leadyominame",
   axa_SerialNumber = "axa_serialnumber",
+  axa_Warranty = "axa_warranty",
+  axa_Warrantyoptions = "axa_warrantyoptions",
   BudgetAmount = "budgetamount",
   BudgetAmount_Base = "budgetamount_base",
   BudgetStatus = "budgetstatus",
@@ -336,6 +347,9 @@ export enum OpportunityAttributes {
   nmc_InsideSalesRep = "nmc_insidesalesrep",
   nmc_InsideSalesRepName = "nmc_insidesalesrepname",
   nmc_InsideSalesRepYomiName = "nmc_insidesalesrepyominame",
+  nmc_lead_opportunityId = "nmc_lead_opportunityid",
+  nmc_lead_opportunityIdName = "nmc_lead_opportunityidname",
+  nmc_lead_opportunityIdYomiName = "nmc_lead_opportunityidyominame",
   nmc_LocateEquipment = "nmc_locateequipment",
   nmc_LookforExistingRepairOptions = "nmc_lookforexistingrepairoptions",
   nmc_LostSaleReport = "nmc_lostsalereport",
@@ -573,8 +587,22 @@ export interface Opportunity extends IEntity {
   actualvalue_base?: number | null;
   // Competitor 1 Machine Quantity IntegerType
   axa_competitor1machinequantity?: number | null;
+  // Financing? BooleanType
+  axa_financing?: boolean | null;
+  // Financing options axa_financingoptions
+  axa_financingoptions?: import("../enums/axa_financingoptions").axa_financingoptions | null;
+  // Lead LookupType
+  axa_lead?: import("cdsify").EntityReference | null;
+  //  StringType
+  axa_leadname?: string | null;
+  //  StringType
+  axa_leadyominame?: string | null;
   // Serial Number StringType
   axa_serialnumber?: string | null;
+  // Warranty? BooleanType
+  axa_warranty?: boolean | null;
+  // Warranty options axa_warrantyoptions
+  axa_warrantyoptions?: import("../enums/axa_warrantyoptions").axa_warrantyoptions | null;
   // Budget amount MoneyType Type a value between 0 and 1,000,000,000,000 to indicate the lead's potential available budget.
   budgetamount?: number | null;
   // Budget Amount (Base) MoneyType Value of the Budget Amount in base currency.
@@ -873,6 +901,12 @@ export interface Opportunity extends IEntity {
   nmc_insidesalesrepname?: string | null;
   //  StringType
   nmc_insidesalesrepyominame?: string | null;
+  // lead_opportunity LookupType Unique identifier for Lead associated with Opportunity.
+  nmc_lead_opportunityid?: import("cdsify").EntityReference | null;
+  //  StringType
+  nmc_lead_opportunityidname?: string | null;
+  //  StringType
+  nmc_lead_opportunityidyominame?: string | null;
   // Locate Equipment opportunity_nmc_opportunity_nmc_locateequipment
   nmc_locateequipment?: import("../enums/opportunity_nmc_opportunity_nmc_locateequipment").opportunity_nmc_opportunity_nmc_locateequipment | null;
   // Look for Existing Repair Options BooleanType
