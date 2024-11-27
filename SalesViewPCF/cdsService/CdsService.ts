@@ -98,7 +98,6 @@ export default class CdsService {
         acc[item[axa_DepartmentAttributes.axa_DepartmentId]] = item[axa_DepartmentAttributes.axa_Name];
         return acc;
       }, {});
-    console.log(SFS.entities.length)
     const formattedResult = this.formatSalesFulfillmentStatus(SFS.entities, departments);
 
     return {
@@ -153,7 +152,6 @@ export default class CdsService {
       const depName = item[`${this.departmentAlias}.${axa_DepartmentAttributes.axa_Name}`];
       if (departmentId && Object.values(Departments).includes(depName) && !SFS[id].department[depName]) SFS[id].department[depName] = status;
     })
-    console.log(tasks)
 
     Object.keys(SFS).forEach((key) => {
       SFS[key].department = this.groupTasksByDepartment(tasks[key], Departments);
