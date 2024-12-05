@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="oDillmann" constructor="SalesViewPCF" version="0.0.36" display-name-key="SalesViewPCF" description-key="SalesViewPCF description" control-type="standard" >
+  <control namespace="oDillmann" constructor="SalesViewPCF" version="0.0.39" display-name-key="SalesViewPCF" description-key="SalesViewPCF description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -19,11 +19,12 @@
     </external-service-usage>
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
-      <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
-      <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
-      <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-      -->
     </data-set>
+    <property name="UserFilter" display-name-key="User Filter" description-key="Filter the data based on the logged in user" of-type="Enum" usage="input" required="true">
+      <value name="Yes" display-name-key="Yes" description-key="Filter the data based on the logged in user" default="true">1</value>
+      <value name="No" display-name-key="No" description-key="Do not filter the data based on the logged in user">0</value>
+    </property>
+
     <resources>
       <code path="index.ts" order="1"/>
       <!-- UNCOMMENT TO ADD MORE RESOURCES

@@ -22,6 +22,7 @@ export default class SalesViewVM {
   private ViewSFS: SalesFulfillmentStatus[] = [];
   public SFS: SalesFulfillmentStatus[] = [];
   public PCFerror?: string = undefined;
+  private isFilterBasedOnUser: boolean = false;
   private isControlLoading: boolean = true;
   public isViewLoading: boolean = true;
   get isLoading() { return this.isControlLoading || this.isViewLoading; }
@@ -33,6 +34,7 @@ export default class SalesViewVM {
     this.serviceProvider = serviceProvider;
     this.context = serviceProvider.get("context");
     this.notifyOutputChanged = serviceProvider.get("notifyOutputChanged");
+    this.isFilterBasedOnUser = this.context.parameters.UserFilter.raw === "1";
     this.cdsService = serviceProvider.get(CdsService.serviceName);
     makeAutoObservable(this);
   }
@@ -58,7 +60,7 @@ export default class SalesViewVM {
 
   public async fetchData(): Promise<void> {
     try {
-      const { salesFulfillmentStatus: SFS, departments } = await this.cdsService.fetchData()
+      const { salesFulfillmentStatus: SFS, departments } = await this.cdsService.fetchData(this.isFilterBasedOnUser)
       this.ControlSFS = SFS;
       this.Departments = departments;
     } catch (e: any) {

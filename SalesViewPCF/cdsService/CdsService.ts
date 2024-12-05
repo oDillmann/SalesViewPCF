@@ -1,6 +1,5 @@
 import { axa_DealSetupFormAttributes, axa_dealsetupformMetadata } from "../cds-generated/entities/axa_DealSetupForm";
 import { axa_DepartmentAttributes, axa_departmentMetadata } from "../cds-generated/entities/axa_Department";
-import { axa_DepartmentfulfillmentStatusAttributes, axa_departmentfulfillmentstatusMetadata } from "../cds-generated/entities/axa_DepartmentfulfillmentStatus";
 import { axa_SalesFulfillmentStatusAttributes, axa_salesfulfillmentstatusMetadata } from "../cds-generated/entities/axa_SalesFulfillmentStatus";
 import { EnvironmentVariableDefinitionAttributes, environmentvariabledefinitionMetadata } from "../cds-generated/entities/EnvironmentVariableDefinition";
 import { OpportunityAttributes, opportunityMetadata } from "../cds-generated/entities/Opportunity";
@@ -13,24 +12,27 @@ import { IInputs } from "../generated/ManifestTypes";
 import { SalesFulfillmentStatus } from "../types/SalesFulfillmentStatus";
 import { Task } from "../types/Task";
 import { task_task_statecode } from "../cds-generated/enums/task_task_statecode";
+import { axa_department_axa_department_statuscode } from "../cds-generated/enums/axa_department_axa_department_statuscode";
 
 export default class CdsService {
   public static readonly serviceName = "CdsService";
   public Context: ComponentFramework.Context<IInputs>;
-  departmentAlias = "department";
-  opportunityAlias = "opportunity";
-  dsfAlias = "DSF";
-  taskAlias = "task";
-  departmentFulfillmentStatusAlias = "departmentfulfillmentstatus";
-  salesResponsibleAlias = "salesresponsible";
-  makeAlias = "make";
-  caterpillerMakeName = "";
+  private isBasedOnUser: boolean = false;
+  private opportunityAlias = "opportunity";
+  private dsfAlias = "DSF";
+  private salesResponsibleAlias = "salesresponsible";
+  private makeAlias = "make";
+  private caterpillerMakeName = "";
+  private depAlias = "dep";
+  private sfsAlias = "sfs";
+
 
   constructor(context: ComponentFramework.Context<IInputs>) {
     this.Context = context;
   }
 
-  public async fetchData() {
+  public async fetchData(isBasedOnUser: boolean) {
+    this.isBasedOnUser = isBasedOnUser;
     const departmentsFetchXml = [
       "?fetchXml=",
       "<fetch>",
@@ -39,12 +41,14 @@ export default class CdsService {
       `    <attribute name='${axa_DepartmentAttributes.axa_Name}'/>`,
       `    <attribute name='${axa_DepartmentAttributes.axa_Order}'/>`,
       `    <attribute name='${axa_DepartmentAttributes.statecode}'/>`,
+      `    <filter>`,
+      `      <condition attribute='${axa_DepartmentAttributes.statuscode}' operator='eq' value='${axa_department_axa_department_statuscode.Active}'/>`,
+      `    </filter>`,
       `    <order attribute='${axa_DepartmentAttributes.axa_Order}'/>`,
       "  </entity>",
       "</fetch>"
     ].join('');
-
-    const DFSFetchXml = [
+    const SFSFetchXml = [
       "?fetchXml=",
       "<fetch>",
       `  <entity name='${axa_salesfulfillmentstatusMetadata.logicalName}'>`,
@@ -60,17 +64,22 @@ export default class CdsService {
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Warehouse}'/>`,
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
-      `    <link-entity name='${taskMetadata.logicalName}' from='${TaskAttributes.axa_SalesFulfillmentStatus}' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId}' link-type='outer' alias='${this.taskAlias}'>`,
-      `      <attribute name='${TaskAttributes.StateCode}'/>`,
-      `      <attribute name='${TaskAttributes.ActivityId}'/>`,
-      `      <attribute name='${TaskAttributes.axa_Department}'/>`,
-      `      <attribute name='${TaskAttributes.Subject}'/>`,
-      "    </link-entity>",
+      "    <filter>",
+      `      <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='in'>`,
+      `        <value>752580000</value>`, // Not Started
+      `        <value>752580001</value>`, // In Progress
+      "      </condition>",
+      "    </filter>",
       `    <link-entity name='${z2t_makeMetadata.logicalName}' from='${z2t_makeAttributes.z2t_makeId}' to='${axa_SalesFulfillmentStatusAttributes.axa_Make}' link-type='outer' alias='${this.makeAlias}'>`,
       `      <attribute name='${z2t_makeAttributes.z2t_name}'/>`,
       "    </link-entity>",
-      `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='outer' alias='${this.salesResponsibleAlias}'>`,
+      `    <link-entity name='systemuser' from='systemuserid' to='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsible}' link-type='${this.isBasedOnUser ? "inner" : "outer"}' alias='${this.salesResponsibleAlias}'>`,
       "      <attribute name='fullname'/>",
+      ...(this.isBasedOnUser ? [
+        "      <filter>",
+        `        <condition attribute='systemuserid' operator='eq' value='${this.Context.userSettings.userId.replace("{", "").replace("}", "").toLowerCase()}'/>`,
+        "      </filter>",
+      ] : []),
       "    </link-entity>",
       `    <link-entity name='${axa_dealsetupformMetadata.logicalName}' from='${axa_DealSetupFormAttributes.axa_DealSetupFormId}' to='${axa_SalesFulfillmentStatusAttributes.axa_DSF}' link-type='outer' alias='${this.dsfAlias}'>`,
       `      <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}'/>`,
@@ -84,38 +93,35 @@ export default class CdsService {
       "  </entity>",
       "</fetch>"
     ].join('');
-    const [departmentsRes, SFS, caterpillerMakeName] = await Promise.all([
+    const [{ entities: departmentsRes }, { entities: SFS }, tasks, caterpillerMakeName] = await Promise.all([
       this.Context.webAPI.retrieveMultipleRecords(axa_departmentMetadata.logicalName, departmentsFetchXml),
-      this.Context.webAPI.retrieveMultipleRecords(axa_salesfulfillmentstatusMetadata.logicalName, DFSFetchXml),
+      this.Context.webAPI.retrieveMultipleRecords(axa_salesfulfillmentstatusMetadata.logicalName, SFSFetchXml),
+      this.getSfsTasks(),
       this.GetEnvironmentVariableValue("axa_CaterpillerMakeName")
     ]);
-
     this.caterpillerMakeName = caterpillerMakeName || "";
-    const departments: Record<string, string> = departmentsRes.entities
+    const departments: Record<string, string> = departmentsRes
       .filter(i => i[axa_DepartmentAttributes.statecode] === axa_department_axa_department_statecode.Active)
       .sort(i => i[axa_DepartmentAttributes.axa_Order] - i[axa_DepartmentAttributes.axa_Order])
       .reduce((acc, item) => {
         acc[item[axa_DepartmentAttributes.axa_DepartmentId]] = item[axa_DepartmentAttributes.axa_Name];
         return acc;
       }, {});
-    const formattedResult = this.formatSalesFulfillmentStatus(SFS.entities, departments);
-
+    const formattedResult = await this.formatSalesFulfillmentStatus(SFS, departments, tasks);
     return {
       departments: Object.values(departments),
       salesFulfillmentStatus: formattedResult
     }
   }
 
-  private formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[], Departments: Record<string, string>): Record<string, SalesFulfillmentStatus> {
+  private async formatSalesFulfillmentStatus(data: ComponentFramework.WebApi.Entity[], Departments: Record<string, string>, tasks: Record<string, Task[]>): Promise<Record<string, SalesFulfillmentStatus>> {
     const SFS: Record<string, SalesFulfillmentStatus> = {}
-    const tasks: Record<string, Task[]> = {}
-    data.forEach((item) => {
+    data.map((item) => {
       const estimatedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ESD];
       const confirmedDate = item[axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate];
       const isMakeCaterpiller = item[`${this.makeAlias}.${z2t_makeAttributes.z2t_name}`]?.trim() === this.caterpillerMakeName?.trim();
       const typeOfSale = item[axa_SalesFulfillmentStatusAttributes.axa_TypeofSale];
       const id = item[axa_SalesFulfillmentStatusAttributes.axa_SalesFulfillmentStatusId];
-      if (!tasks[id]) tasks[id] = [];
       if (!SFS[id]) {
         SFS[id] = {
           id,
@@ -138,26 +144,71 @@ export default class CdsService {
           department: {}
         }
       }
-      const taskId = item[`${this.taskAlias}.${TaskAttributes.ActivityId}`]
-      if (taskId && tasks[id].find(i => i.id === taskId) === undefined)
-        tasks[id].push({
-          id: item[`${this.taskAlias}.${TaskAttributes.ActivityId}`],
-          title: item[`${this.taskAlias}.${TaskAttributes.Subject}`],
-          departmentId: item[`${this.taskAlias}.${TaskAttributes.axa_Department}`],
-          status: item[`${this.taskAlias}.${TaskAttributes.StateCode}`],
-        });
-
-      const departmentId = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_DepartmentfulfillmentStatusId}`];
-      const status = item[`${this.departmentFulfillmentStatusAlias}.${axa_DepartmentfulfillmentStatusAttributes.axa_FulfillmentStatus}`];
-      const depName = item[`${this.departmentAlias}.${axa_DepartmentAttributes.axa_Name}`];
-      if (departmentId && Object.values(Departments).includes(depName) && !SFS[id].department[depName]) SFS[id].department[depName] = status;
     })
-
     Object.keys(SFS).forEach((key) => {
       SFS[key].department = this.groupTasksByDepartment(tasks[key], Departments);
     })
-
     return SFS;
+  }
+
+  private async getSfsTasks(): Promise<Record<string, Task[]>> {
+    let page = 1;
+    const pageCookieMatch = /(?<=pagingcookie=['"])[a-z,A-Z,0-9,%-_.~]+/g;
+    const count = 5000;
+    let pagingCookie: string | null = null;
+    const tasks: Record<string, Task[]> = {};
+    while (page > 0) {
+      console.log("fetching page", page)
+      const fetchXml = () => [
+        `<fetch returntotalrecordcount='true' page='${page}' count='${count}' ${pagingCookie ? `paging-cookie='${this.xmlEncode(pagingCookie)}'` : ""}>`,
+        `  <entity name='${taskMetadata.logicalName}'>`,
+        `    <attribute name='${TaskAttributes.StateCode}'/>`,
+        `    <attribute name='${TaskAttributes.ActivityId}'/>`,
+        `    <attribute name='${TaskAttributes.axa_Department}'/>`,
+        `    <attribute name='${TaskAttributes.axa_SalesFulfillmentStatus}'/>`,
+        `    <attribute name='${TaskAttributes.Subject}'/>`,
+        `    <link-entity name='${axa_salesfulfillmentstatusMetadata.logicalName}' from='${axa_salesfulfillmentstatusMetadata.primaryIdAttribute}' to='${TaskAttributes.axa_SalesFulfillmentStatus}' link-type='inner' alias='${this.sfsAlias}'>`,
+        "      <filter>",
+        `        <condition attribute='${axa_SalesFulfillmentStatusAttributes.axa_SalesStatus}' operator='in'>`,
+        `          <value>752580000</value>`, // Not Started
+        `          <value>752580001</value>`, // In Progress
+        "        </condition>",
+        "      </filter>",
+        "    </link-entity>",
+        `    <link-entity name='${axa_departmentMetadata.logicalName}' from='${axa_departmentMetadata.primaryIdAttribute}' to='${TaskAttributes.axa_Department}' link-type='inner' alias='${this.depAlias}'>`,
+        "      <filter>",
+        `        <condition attribute='${axa_DepartmentAttributes.statuscode}' operator='eq' value='${axa_department_axa_department_statuscode.Active}'/>`,
+        "      </filter>",
+        "    </link-entity>",
+        "  </entity>",
+        "</fetch>"
+      ].join("");
+      const clientUrl = Xrm.Utility.getGlobalContext().getClientUrl();
+      const webApiUrl = `${clientUrl}/api/data/v9.1/tasks?fetchXml=${encodeURIComponent(fetchXml())}`;
+      const tasksRes = await fetch(webApiUrl, { headers: { Prefer: "odata.include-annotations=*" } }).then(res => res.json());
+      pagingCookie = tasksRes["@Microsoft.Dynamics.CRM.fetchxmlpagingcookie"];
+      if (pagingCookie) {
+        pagingCookie = pagingCookie.match(pageCookieMatch)?.[0] || null;
+        if (pagingCookie)
+          pagingCookie = decodeURIComponent(decodeURIComponent(pagingCookie))
+      }
+      tasksRes.value.map((item: ComponentFramework.WebApi.Entity) => {
+        const sfsId = item[`_${TaskAttributes.axa_SalesFulfillmentStatus}_value`];
+        if (!tasks[sfsId]) tasks[sfsId] = [];
+        tasks[sfsId].push({
+          id: item[TaskAttributes.ActivityId],
+          title: item[TaskAttributes.Subject],
+          departmentId: item[`_${TaskAttributes.axa_Department}_value`],
+          status: item[TaskAttributes.StateCode],
+        } as Task);
+      })
+      if (tasksRes["@Microsoft.Dynamics.CRM.morerecords"]) {
+        page++;
+      } else {
+        page = -1;
+      }
+    }
+    return tasks;
   }
 
   private groupTasksByDepartment(tasks: Task[], Departments: Record<string, string>): Record<string, axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus> {
@@ -190,12 +241,19 @@ export default class CdsService {
 
   private async GetEnvironmentVariableValue(name: string): Promise<string | null> {
     let results = await Xrm.WebApi.retrieveMultipleRecords(environmentvariabledefinitionMetadata.logicalName, `?$filter=schemaname eq '${name}'&$select=${EnvironmentVariableDefinitionAttributes.EnvironmentVariableDefinitionId}&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`);
-
     if (!results || !results.entities || results.entities.length < 1) return null;
     let variable = results.entities[0];
     if (!variable.environmentvariabledefinition_environmentvariablevalue || variable.environmentvariabledefinition_environmentvariablevalue.length < 1) return null;
-
     return variable.environmentvariabledefinition_environmentvariablevalue[0].value;
+  }
+
+  private xmlEncode(str: string) {
+    if (!str) return '';
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
   }
 }
 
