@@ -211,9 +211,9 @@ export default class CdsService {
     return tasks;
   }
 
-  private groupTasksByDepartment(tasks: Task[], Departments: Record<string, string>): Record<string, axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus> {
+  private groupTasksByDepartment(tasks: Task[] | undefined, Departments: Record<string, string>): Record<string, axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus> {
     const groupedTasks: { [Id: string]: Task[] } = {};
-    tasks.forEach(task => {
+    tasks?.forEach(task => {
       if (!groupedTasks[task.departmentId]) groupedTasks[task.departmentId] = [];
       groupedTasks[task.departmentId].push(task);
     });
