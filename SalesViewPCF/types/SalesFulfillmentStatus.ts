@@ -15,6 +15,7 @@ export type SalesFulfillmentStatus = {
   DeliveryDate?: Date,
   isDateConfirmed: boolean,
   salesResponsible?: string,
+  purchaseOrderNumber?: string;
   requirements: {
     //Machine Delivered to Customer
     MDC: boolean,
@@ -25,6 +26,8 @@ export type SalesFulfillmentStatus = {
     //Delivery Service Record
     DSR: boolean,
     CWS: axa_cwsstatus,
+    SO: boolean,
+    PO: boolean
   }
   department: { [department: string]: axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus }
 }

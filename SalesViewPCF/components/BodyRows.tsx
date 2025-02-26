@@ -26,33 +26,25 @@ const BodyRows = ({ Departments, sf }: props) => {
         )
       })}
       <td />
-      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
-        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.SA ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
-        </Stack>
-      </td>
-      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
-        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.MDC ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
-        </Stack>
-      </td>
-      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
-        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes ? "#00c000" : sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
-        </Stack>
-      </td>
-      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
-        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.DSR ? "#00c000" : "#cc0000", height: '25px', width: '25px', }} />
-        </Stack>
-      </td>
-      <td style={{ height: 0, whiteSpace: 'nowrap' }} >
-        <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
-          <div style={{ borderRadius: '50%', backgroundColor: sf.requirements.CWS === axa_cwsstatus.Yes ? "#00c000" : sf.requirements.CWS === axa_cwsstatus.No ? "#cc0000" : "orange", height: '25px', width: '25px', }} />
-        </Stack>
-      </td>
+      <CellDot color={sf.requirements.SO ? "#00c000" : "#cc0000"} />
+      <CellDot color={sf.requirements.PO ? "#00c000" : "#cc0000"} />
+      <CellDot color={sf.requirements.SA ? "#00c000" : "#cc0000"} />
+      <CellDot color={sf.requirements.MDC ? "#00c000" : "#cc0000"} />
+      <CellDot color={sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes ? "#00c000" : sf.requirements.DA === axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No ? "#cc0000" : "orange"} />
+      <CellDot color={sf.requirements.DSR ? "#00c000" : "#cc0000"} />
+      <CellDot color={sf.requirements.CWS === axa_cwsstatus.Yes ? "#00c000" : sf.requirements.CWS === axa_cwsstatus.No ? "#cc0000" : "orange"} />
     </>
   )
 }
 
 export default BodyRows;
+
+const CellDot = ({ color }: { color: string }) => {
+  return (
+    <td style={{ height: 0, whiteSpace: 'nowrap' }} >
+      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { padding: '0.6rem 1rem', border: '2px solid #fff', borderRadius: '3px', height: '100%' } }} >
+        <div style={{ borderRadius: '50%', backgroundColor: color, height: '25px', width: '25px', }} />
+      </Stack>
+    </td>
+  )
+}

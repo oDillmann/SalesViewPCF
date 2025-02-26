@@ -62,6 +62,8 @@ export default class CdsService {
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_TypeofSale}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_SalesResponsibleName}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Machinepurchaseordernumber}'/>`,
+      `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Machinesalesordernumber}'/>`,
       `    <attribute name='${axa_SalesFulfillmentStatusAttributes.axa_Warehouse}'/>`,
       `    <order attribute='${axa_SalesFulfillmentStatusAttributes.axa_ESD}'/>`,
       "    <filter>",
@@ -84,6 +86,7 @@ export default class CdsService {
       `    <link-entity name='${axa_dealsetupformMetadata.logicalName}' from='${axa_DealSetupFormAttributes.axa_DealSetupFormId}' to='${axa_SalesFulfillmentStatusAttributes.axa_DSF}' link-type='outer' alias='${this.dsfAlias}'>`,
       `      <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment_Name}'/>`,
       `      <attribute name='${axa_DealSetupFormAttributes.axa_Salesagreementattachment2_Name}'/>`,
+      `      <attribute name='${axa_DealSetupFormAttributes.axa_InStock}'/>`,
       `      <attribute name='${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}'/>`,
       `      <attribute name='${axa_DealSetupFormAttributes.axa_CWSID}'/>`,
       `      <link-entity name='${opportunityMetadata.logicalName}' from='${OpportunityAttributes.OpportunityId}' to='${axa_DealSetupFormAttributes.axa_Opportunity}' link-type='outer' alias='${this.opportunityAlias}'>`,
@@ -140,6 +143,8 @@ export default class CdsService {
             DA: !isMakeCaterpiller ? axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.Yes : item[axa_SalesFulfillmentStatusAttributes.axa_DoesCustomerhavedatagovernanceform],
             DSR: !isMakeCaterpiller || typeOfSale === "Used Sales" ? true : item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_DeliveryServiceRecord_Name}`] ? true : false,
             CWS: item[axa_SalesFulfillmentStatusAttributes.axa_DoescustomerhaveCWS],
+            PO: (item[`${this.dsfAlias}.${axa_DealSetupFormAttributes.axa_InStock}`] || item[axa_SalesFulfillmentStatusAttributes.axa_Machinepurchaseordernumber]) ? true : false,
+            SO: item[axa_SalesFulfillmentStatusAttributes.axa_Machinesalesordernumber] ? true : false,
           },
           department: {}
         }

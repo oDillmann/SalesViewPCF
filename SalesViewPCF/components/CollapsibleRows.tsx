@@ -45,28 +45,12 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
     <>
       <tr style={{ display: 'table-row', userSelect: 'none' }} onClick={() => expanded ? collapse() : expand()}>
         <td colSpan={1} style={{ position: "sticky", left: 0 }}>
-          <Stack
-            horizontal
-            tokens={{ childrenGap: 10 }}
-            verticalAlign="center"
-            styles={{
-              root: {
-                padding: "0.6rem 1rem",
-                border: "2px solid #fff",
-                backgroundColor: 'white',
-                cursor: "pointer",
-
-              }
-            }}
+          <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center"
+            styles={{ root: { padding: "0.6rem 1rem", border: "2px solid #fff", backgroundColor: 'white', cursor: "pointer", } }}
           >
             <Text variant="mediumPlus" styles={{ root: { color: periodTitleColor, fontWeight: 600 } }}>{periodTitle}</Text>
             <Icon iconName="ChevronDownMed" styles={{
-              root: {
-                fontSize: '1.2rem',
-                color: periodTitleColor,
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.1s ease-in-out'
-              }
+              root: { fontSize: '1.2rem', color: periodTitleColor, transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.1s ease-in-out' }
             }} />
           </Stack>
         </td>
@@ -84,17 +68,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
                   openInNewWindow: true
                 })
               }}
-              styles={{
-                root: {
-                  padding: "0.6rem 1rem",
-                  userSelect: "none",
-                  border: "2px solid #fff",
-                  backgroundColor: "#eee",
-                  width: "250px",
-                  wordWrap: "break-word",
-                  cursor: "pointer",
-                }
-              }}
+              styles={{ root: { padding: "0.6rem 1rem", userSelect: "none", border: "2px solid #fff", backgroundColor: "#eee", width: "350px", wordWrap: "break-word", cursor: "pointer", } }}
             >
               <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between">
                 <Text styles={{ root: { fontWeight: '900', whiteSpace: "nowrap", overflow: "hidden", textOverflow: "" } }}>{sf.title ?? "--"}</Text>
@@ -103,6 +77,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
               <Stack tokens={{ childrenGap: "0.2rem" }} >
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.salesResponsible ?? "--"}</Text>
+                  <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.purchaseOrderNumber ?? "--"}</Text>
                   <Text styles={{ root: { fontSize: '0.8rem' } }}>{sf.typeOfSale ?? "--"}</Text>
                 </Stack>
                 <Stack horizontal tokens={{ childrenGap: '0.5rem' }} horizontalAlign="space-between" >
@@ -115,8 +90,7 @@ const CollapsibleRows = ({ SFS, Departments, periodTitle, pastDue }: props) => {
           </td>
           <BodyRows Departments={Departments} sf={sf} />
         </tr>
-      ))
-      }
+      ))}
     </>
   )
 }

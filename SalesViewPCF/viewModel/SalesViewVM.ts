@@ -220,6 +220,7 @@ export default class SalesViewVM {
     const phase = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_CurrentPhase);
     const typeOfSale = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_TypeofSale);
     const warehouse = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Warehouse);
+    const purchaseOrderNumber = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Machinepurchaseordernumber);
     const model = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_Mocel);
     let estimatedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ESD)) : undefined;
     let confirmedDate = record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate) ? new Date(record.getFormattedValue(axa_SalesFulfillmentStatusAttributes.axa_ConfirmedDeliveryDate)) : undefined;
@@ -239,10 +240,11 @@ export default class SalesViewVM {
       OpType: z2t_type.Sales,
       DeliveryDate: confirmedDate ?? estimatedDate,
       isDateConfirmed: !!confirmedDate,
+      purchaseOrderNumber: purchaseOrderNumber,
       salesResponsible: salesResponsible,
       model,
       warehouse,
-      requirements: { MDC: false, SA: false, DA: axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No, DSR: false, CWS: axa_cwsstatus.No },
+      requirements: { MDC: false, SA: false, DA: axa_salesfulfillmentstatus_axa_salesfulfillmentstatus_axa_doescustomerhavedatagovernanceform.No, DSR: false, CWS: axa_cwsstatus.No, PO: false, SO: false },
       department: {},
     }
   }
