@@ -10,7 +10,7 @@ interface props { Departments: string[], sf: SalesFulfillmentStatus }
 const BodyRows = ({ Departments, sf }: props) => {
   return (
     <>
-      {Departments.map((d) => {
+      {/*Departments.map((d) => {
         const status = sf.department[d] || axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus.Notstarted;
         const statusColor = status === axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus.Notstarted ? "#cc0000" :
           status === axa_departmentfulfillmentstatus_axa_departmentfulfillmentstatus_axa_fulfillmentstatus.WIP ? "orange" : "#00c000"
@@ -24,8 +24,8 @@ const BodyRows = ({ Departments, sf }: props) => {
           </Stack>
         </td>
         )
-      })}
-      <td />
+      })*/}
+      {/*<td />*/}
       <CellDot color={sf.requirements.SO ? "#00c000" : "#cc0000"} />
       <CellDot color={sf.requirements.PO ? "#00c000" : "#cc0000"} />
       <CellDot color={sf.requirements.SA ? "#00c000" : "#cc0000"} />

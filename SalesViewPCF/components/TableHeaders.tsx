@@ -15,8 +15,8 @@ const TableHeaders = ({ Departments }: props) => {
     <>
       <colgroup>
         <col style={{ width: "auto" }} />
-        {Departments.map((d) => <col key={d} style={{ width: "auto" }} />)}
-        <col style={{ width: "auto" }} />
+        {/*Departments.map((d) => <col key={d} style={{ width: "auto" }} />)*/}
+        {/*<col style={{ width: "auto" }} />*/}
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
         <col style={{ width: "auto" }} />
@@ -48,12 +48,12 @@ const TableHeaders = ({ Departments }: props) => {
               />
             </Stack>
           </th>
-          {Departments.map((d) => <TableHeader key={d + "header"} />)}
-          <th style={{ height: 0, whiteSpace: "nowrap", backgroundColor: "white" }}>
+          {/*Departments.map((d) => <TableHeader key={d + "header"} />)*/}
+          {/*<th style={{ height: 0, whiteSpace: "nowrap", backgroundColor: "white" }}>
             <Stack horizontalAlign="center" styles={{ root: { marginInline: "10px", height: "100%" } }}>
               <div style={{ width: "1px", height: "100%", backgroundColor: "#aaa" }}> </div>
             </Stack>
-          </th>
+          </th>*/}
           <TableHeader text="Sales Order" />
           <TableHeader text="Purchase Order" />
           <TableHeader text="Sales Agreement" />

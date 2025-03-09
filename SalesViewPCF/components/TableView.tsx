@@ -1,10 +1,10 @@
-import { Stack } from '@fluentui/react';
-import { observer } from 'mobx-react';
-import React from 'react';
-import { useVM } from '../viewModel/context';
-import SalesViewVM, { ViewType } from '../viewModel/SalesViewVM';
-import CollapsibleRows from './CollapsibleRows';
-import TableHeaders from './TableHeaders';
+import { Stack } from "@fluentui/react";
+import { observer } from "mobx-react";
+import React from "react";
+import { useVM } from "../viewModel/context";
+import SalesViewVM, { ViewType } from "../viewModel/SalesViewVM";
+import CollapsibleRows from "./CollapsibleRows";
+import TableHeaders from "./TableHeaders";
 
 const groupByHandlers = {
   [ViewType.Date]: (vm: SalesViewVM) => (
@@ -19,14 +19,14 @@ const groupByHandlers = {
     ].filter(Boolean) as JSX.Element[]
   ),
   //
-  [ViewType['Sales Responsible']]: (vm: SalesViewVM) => Object.keys(vm.groupBySalesResponsible).map((salesResponsible) => {
+  [ViewType["Sales Responsible"]]: (vm: SalesViewVM) => Object.keys(vm.groupBySalesResponsible).map((salesResponsible) => {
     return <CollapsibleRows key={salesResponsible + "salesResponsible"} SFS={vm.groupBySalesResponsible[salesResponsible]} Departments={vm.Departments} periodTitle={salesResponsible} />
   }) as JSX.Element[],
   //
   [ViewType.Warehouse]: (vm: SalesViewVM) => Object.keys(vm.groupedByWarehouse).map((warehouse) => {
     return <CollapsibleRows key={warehouse + "warehouse"} SFS={vm.groupedByWarehouse[warehouse]} Departments={vm.Departments} periodTitle={warehouse} />
   }) as JSX.Element[],
-  [ViewType['Type of Sale']]: (vm: SalesViewVM) => Object.keys(vm.groupedByType).map((type) => {
+  [ViewType["Type of Sale"]]: (vm: SalesViewVM) => Object.keys(vm.groupedByType).map((type) => {
     return <CollapsibleRows key={type + "type"} SFS={vm.groupedByType[type]} Departments={vm.Departments} periodTitle={type} />
   })
   // Add more handlers here as needed
@@ -40,8 +40,8 @@ const TableView = () => {
   }, [vm.ViewType, vm.groupBySalesResponsible, vm.groupedByMonth, vm.groupedByWarehouse, vm.pastDueByMonth, vm.thisWeek, vm.noEsd, vm.Departments]);
 
   return (
-    <Stack horizontal styles={{ root: { padding: '0 0 0 1rem', height: '100%', width: '100%', overflowY: 'scroll' } }}>
-      <table style={{ display: 'block', overflowY: 'scroll' }}>
+    <Stack horizontal styles={{ root: { padding: "0 0 0 1rem", height: "100%", width: "100%" } }}>
+      <table style={{ display: "block", width: "100%", overflowY: "scroll" }}>
         <TableHeaders Departments={vm.Departments} />
         <tbody>
           {groupByComponent}
